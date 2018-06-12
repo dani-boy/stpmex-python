@@ -60,7 +60,7 @@ class Orden:
         self._type = client.get_type('ns0:ordenPagoWS')
         self._orden = self._type(**kwargs)
 
-    def compute_signature(self):
+    def _compute_signature(self):
         fields = '||'
         for fieldname in ORDEN_FIELDNAMES:
             field = getattr(self._orden, fieldname) or ''
@@ -72,4 +72,5 @@ class Orden:
         return b64encode(signature).decode('ascii')
 
     def submit(self):
-        client.service.registraOrden(self._orden)
+        self._orden.firma = self._compute_signature()
+        return client.service.registraOrden(self._orden)
