@@ -6,7 +6,7 @@ PYTHON=python3.6
 default: install
 
 venv:
-		$(PYTHON) -m venv --prompt stp venv
+		$(PYTHON) -m venv --prompt stpmex venv
 		source venv/bin/activate
 		pip install --quiet --upgrade pip
 

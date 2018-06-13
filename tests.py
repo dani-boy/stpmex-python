@@ -1,4 +1,4 @@
-from stp import Orden
+from stpmex import Orden
 
 
 def test_join_fields():
