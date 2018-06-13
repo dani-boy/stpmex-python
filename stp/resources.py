@@ -54,16 +54,18 @@ ORDEN_FIELDNAMES = """
     """.split()
 
 
-class Orden:
+class Resource:
+
+    _submit_method = None
+    _type = None
 
     def __init__(self, **kwargs):
-        self._type = client.get_type('ns0:ordenPagoWS')
-        self._orden = self._type(**kwargs)
+        self._object = self._type(**kwargs)
 
     def _compute_signature(self):
         fields = '||'
         for fieldname in ORDEN_FIELDNAMES:
-            field = getattr(self._orden, fieldname) or ''
+            field = getattr(self._object, fieldname) or ''
             field = str(field)
             fields += '|' + field
         fields += '||'
@@ -72,5 +74,11 @@ class Orden:
         return b64encode(signature).decode('ascii')
 
     def submit(self):
-        self._orden.firma = self._compute_signature()
-        return client.service.registraOrden(self._orden)
+        self._object.firma = self._compute_signature()
+        return self._submit_method(self._object)
+
+
+class Orden(Resource):
+
+    _submit_method = client.service.registraOrden
+    _type = client.get_type('ns0:ordenPagoWS')
