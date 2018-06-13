@@ -19,6 +19,9 @@ install: venv
 install-dev: install
 		pip install --quiet --upgrade -r requirements-dev.txt
 
+test:
+		pytest -v tests.py
+
 lint:
 		pycodestyle stp
 

@@ -39,13 +39,22 @@ class Resource:
     def __init__(self, **kwargs):
         self.__object__ = self.__type__(**kwargs)
 
+    def __eq__(self, other):
+        return all(getattr(self, name) ==
+                   getattr(other, name) for name in self.__fieldnames__)
+
     def __getattr__(self, item):
         if item.startswith('_'):
             return self.__getattribute__(item)
         return getattr(self.__object__, item)
 
     def __repr__(self):
-        return self.__object__.__repr__()
+        indent = ' ' * 4
+        rv = f'{self.__class__.__name__}(\n'
+        for name in self.__fieldnames__:
+            rv += f'{indent}{name}={repr(getattr(self, name))},\n'
+        rv += ')'
+        return rv
 
     def __setattr__(self, key, value):
         if key.startswith('_'):
@@ -56,9 +65,12 @@ class Resource:
     def __str__(self):
         return self.__object__.__str__()
 
+    @property
+    def _joined_fields(self):
+        return _join_fields(self, self.__fieldnames__)
+
     def _compute_signature(self):
-        fields_str = _join_fields(self, self.__fieldnames__)
-        signature = crypto.sign(pkey, fields_str, SIGN_DIGEST)
+        signature = crypto.sign(pkey, self._joined_fields, SIGN_DIGEST)
         return b64encode(signature).decode('ascii')
 
     def submit(self):
