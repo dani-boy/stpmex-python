@@ -39,6 +39,9 @@ class Resource:
     def __init__(self, **kwargs):
         self.__object__ = self.__type__(**kwargs)
 
+    def __dir__(self):
+        return super(Resource, self).__dir__() + self.__fieldnames__
+
     def __eq__(self, other):
         return all(getattr(self, name) ==
                    getattr(other, name) for name in self.__fieldnames__)
@@ -47,6 +50,9 @@ class Resource:
         if item.startswith('_'):
             return self.__getattribute__(item)
         return getattr(self.__object__, item)
+
+    def __ne__(self, other):
+        return not self == other
 
     def __repr__(self):
         indent = ' ' * 4
