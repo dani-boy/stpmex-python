@@ -1,4 +1,5 @@
 from stpmex import Orden
+from stpmex.resources.types import Institucion
 
 
 def test_join_fields():
@@ -22,7 +23,7 @@ def test_join_fields():
         medioEntrega='3',
         prioridad='0'
     )
-    joined = ('||846|STP|20160810|1q2w33e|1q2w33e|90646|121.00|1|40||||40|'
+    joined = ('||846|STP|20160810|1q2w33e|1q2w33e||121.00|1|40||||40|'
               'eduardo|846180000300000004| ND|fernanda.cedillo@stpmex.com|||||'
               'pago prueba||||||123123||T||3|0|||').encode('utf-8')
 
@@ -32,6 +33,7 @@ def test_join_fields():
 def test_create_orden():
     orden = Orden(
         conceptoPago='concepto',
+        institucionOperante=Institucion.STP.value,
         cuentaBeneficiario='846180000400000001',
         institucionContraparte=846,
         monto=1234,

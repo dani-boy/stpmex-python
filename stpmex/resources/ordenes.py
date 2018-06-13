@@ -4,6 +4,7 @@ import time
 from stpmex.soap import client
 
 from .base import Resource, STP_EMPRESA
+from .types import Institucion
 
 
 ORDEN_FIELDNAMES = """
@@ -43,9 +44,7 @@ ORDEN_FIELDNAMES = """
     iva
     """.split()
 
-
 ORDEN_DEFAULTS = dict(
-    institucionOperante=90646,
     empresa=STP_EMPRESA,
     rfcCurpBeneficiario='ND',
     tipoPago=1,
@@ -62,16 +61,8 @@ class Orden(Resource):
     __fieldnames__ = ORDEN_FIELDNAMES
     __type__ = client.get_type('ns0:ordenPagoWS')
     _id = None
+    _defaults = ORDEN_DEFAULTS
     _registra_method = client.service.registraOrden
-
-    def __init__(self, **kwargs):
-        for default, value in ORDEN_DEFAULTS.items():
-            if default not in kwargs:
-                if callable(value):
-                    kwargs[default] = value()
-                else:
-                    kwargs[default] = value
-        super(Orden, self).__init__(**kwargs)
 
     def registra(self):
         resp = super(Orden, self).registra()

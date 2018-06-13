@@ -32,9 +32,16 @@ class Resource:
     __fieldnames__ = None
     __object__ = None
     __type__ = None
+    _defaults = {}
     _registra_method = None
 
     def __init__(self, **kwargs):
+        for default, value in self._defaults.items():
+            if default not in kwargs:
+                if callable(value):
+                    kwargs[default] = value()
+                else:
+                    kwargs[default] = value
         self.__object__ = self.__type__(**kwargs)
 
     def __dir__(self):
@@ -64,6 +71,7 @@ class Resource:
         if key.startswith('_'):
             super(Resource, self).__setattr__(key, value)
         else:
+
             setattr(self.__object__, key, value)
 
     def __str__(self):
