@@ -23,5 +23,5 @@ test:
 		pytest -v tests.py
 
 lint:
-		pycodestyle stp
+		pycodestyle stpmex
 
