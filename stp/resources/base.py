@@ -27,14 +27,10 @@ class Resource:
         self._object = self._type(**kwargs)
 
     def _compute_signature(self):
-        fields = '||'
-        for fieldname in self._field_names:
-            field = getattr(self._object, fieldname) or ''
-            field = str(field)
-            fields += '|' + field
-        fields += '||'
-        fields = fields.encode('ascii')
-        signature = crypto.sign(pkey, fields, 'RSA-SHA256')
+        fields = [str(getattr(self._object, field_name) or '')
+                  for field_name in self._field_names]
+        fields_str = ('||' + '|'.join(fields) + '||').encode('ascii')
+        signature = crypto.sign(pkey, fields_str, 'RSA-SHA256')
         return b64encode(signature).decode('ascii')
 
     def submit(self):
