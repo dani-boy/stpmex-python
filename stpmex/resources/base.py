@@ -71,7 +71,6 @@ class Resource:
         if key.startswith('_'):
             super(Resource, self).__setattr__(key, value)
         else:
-
             setattr(self.__object__, key, value)
 
     def __str__(self):
