@@ -4,7 +4,7 @@ import time
 from stpmex.soap import client
 
 from .base import Resource, STP_EMPRESA
-from .types import Institucion
+from .types import AccountType
 
 
 ORDEN_FIELDNAMES = """
@@ -48,7 +48,7 @@ ORDEN_DEFAULTS = dict(
     empresa=STP_EMPRESA,
     rfcCurpBeneficiario='ND',
     tipoPago=1,
-    tipoCuentaBeneficiario=40,
+    tipoCuentaBeneficiario=AccountType.CLABE.value,
     topologia='T',
     medioEntrega=3,
     claveRastreo=lambda: f'CR{int(time.time())}',
