@@ -41,6 +41,6 @@ ORDEN_FIELDNAMES = """
 
 class Orden(Resource):
 
-    _field_names = ORDEN_FIELDNAMES
+    _fieldnames = ORDEN_FIELDNAMES
     _submit_method = client.service.registraOrden
     _type = client.get_type('ns0:ordenPagoWS')

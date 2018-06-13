@@ -17,22 +17,31 @@ with open(STP_PEM_FILEPATH, 'rb') as pkey_file:
         crypto.FILETYPE_PEM, pkey_file.read(), STP_PEM_PASSPHRASE)
 
 
+def _join_fields(obj, fieldnames):
+    fields = []
+    for fieldname in fieldnames:
+        if fieldname == 'monto':
+            field = f'{obj.monto:.2f}'
+        else:
+            field = getattr(obj, fieldname) or ''
+        fields.append(str(field))
+    return ('||' + '|'.join(fields) + '||').encode('utf-8')
+
+
 class Resource:
 
-    _field_names = None
+    _fieldnames = None
     _submit_method = None
     _type = None
 
     def __init__(self, **kwargs):
-        self._object = self._type(**kwargs)
+        self._obj = self._type(**kwargs)
 
     def _compute_signature(self):
-        fields = [str(getattr(self._object, field_name) or '')
-                  for field_name in self._field_names]
-        fields_str = ('||' + '|'.join(fields) + '||').encode('ascii')
+        fields_str = _join_fields(self._obj, self._fieldnames)
         signature = crypto.sign(pkey, fields_str, 'RSA-SHA256')
         return b64encode(signature).decode('ascii')
 
     def submit(self):
-        self._object.firma = self._compute_signature()
-        return self._submit_method(self._object)
+        self._obj.firma = self._compute_signature()
+        return self._submit_method(self._obj)
