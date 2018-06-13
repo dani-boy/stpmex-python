@@ -37,4 +37,7 @@ def test_create_orden():
         monto=1234,
         nombreBeneficiario='Benito Juárez')
     resp = orden.registra()
-    assert resp['descripcionError'] is None
+    assert resp.descripcionError is None
+    assert type(resp.id) is int
+    assert resp.id > 0
+    assert orden._id == resp.id

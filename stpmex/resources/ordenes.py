@@ -61,6 +61,7 @@ class Orden(Resource):
 
     __fieldnames__ = ORDEN_FIELDNAMES
     __type__ = client.get_type('ns0:ordenPagoWS')
+    _id = None
     _registra_method = client.service.registraOrden
 
     def __init__(self, **kwargs):
@@ -71,3 +72,16 @@ class Orden(Resource):
                 else:
                     kwargs[default] = value
         super(Orden, self).__init__(**kwargs)
+
+    def registra(self):
+        resp = super(Orden, self).registra()
+        self._id = resp.id
+        return resp
+
+    def confirma(self):
+        resp = client.service.confirmaCargo(
+            idOrden=self._id,
+            nuevoEstado='Exito',
+            folio=STP_EMPRESA
+        )
+        return resp
