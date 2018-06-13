@@ -1,4 +1,9 @@
-from .base import client, Resource
+import random
+import time
+
+from stpmex.soap import client
+
+from .base import Resource, STP_EMPRESA
 
 
 ORDEN_FIELDNAMES = """
@@ -39,6 +44,19 @@ ORDEN_FIELDNAMES = """
     """.split()
 
 
+ORDEN_DEFAULTS = dict(
+    institucionOperante=90646,
+    empresa=STP_EMPRESA,
+    rfcCurpBeneficiario='ND',
+    tipoPago=1,
+    tipoCuentaBeneficiario=40,
+    topologia='T',
+    medioEntrega=3,
+    claveRastreo=lambda: f'CR{int(time.time())}',
+    referenciaNumerica=lambda: random.randint(10 ** 6, 10 ** 7)
+)
+
+
 class Orden(Resource):
 
     __fieldnames__ = ORDEN_FIELDNAMES
@@ -46,6 +64,10 @@ class Orden(Resource):
     _submit_method = client.service.registraOrden
 
     def __init__(self, **kwargs):
-        kwargs['institucionOperante'] = kwargs.get(
-            'institucionOperante', '90646')
+        for default, value in ORDEN_DEFAULTS.items():
+            if default not in kwargs:
+                if callable(value):
+                    kwargs[default] = value()
+                else:
+                    kwargs[default] = value
         super(Orden, self).__init__(**kwargs)

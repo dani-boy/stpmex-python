@@ -22,8 +22,8 @@ def test_join_fields():
         medioEntrega='3',
         prioridad='0'
     )
-    joined = ('||846|STP|20160810|1q2w33e|1q2w33e||121.00|1|40||||40|eduardo|'
-              '846180000300000004| ND|fernanda.cedillo@stpmex.com|||||'
+    joined = ('||846|STP|20160810|1q2w33e|1q2w33e|90646|121.00|1|40||||40|'
+              'eduardo|846180000300000004| ND|fernanda.cedillo@stpmex.com|||||'
               'pago prueba||||||123123||T||3|0|||').encode('utf-8')
 
     assert orden._joined_fields == joined
