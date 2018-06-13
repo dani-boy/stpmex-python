@@ -31,7 +31,7 @@ class Resource:
 
     __fieldnames__ = None
     __type__ = None
-    _submit_method = None
+    _registra_method = None
 
     def __init__(self, **kwargs):
         self.__object__ = self.__type__(**kwargs)
@@ -76,6 +76,6 @@ class Resource:
         signature = crypto.sign(pkey, self._joined_fields, SIGN_DIGEST)
         return b64encode(signature).decode('ascii')
 
-    def submit(self):
+    def registra(self):
         self.firma = self._compute_signature()
-        return self._submit_method(self.__object__)
+        return self._registra_method(self.__object__)

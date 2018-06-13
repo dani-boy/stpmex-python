@@ -61,7 +61,7 @@ class Orden(Resource):
 
     __fieldnames__ = ORDEN_FIELDNAMES
     __type__ = client.get_type('ns0:ordenPagoWS')
-    _submit_method = client.service.registraOrden
+    _registra_method = client.service.registraOrden
 
     def __init__(self, **kwargs):
         for default, value in ORDEN_DEFAULTS.items():

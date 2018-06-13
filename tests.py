@@ -36,5 +36,5 @@ def test_create_orden():
         institucionContraparte=846,
         monto=1234,
         nombreBeneficiario='Benito Juárez')
-    resp = orden.submit()
+    resp = orden.registra()
     assert resp['descripcionError'] is None
