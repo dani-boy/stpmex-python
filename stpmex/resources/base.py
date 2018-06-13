@@ -30,6 +30,7 @@ def _join_fields(obj, fieldnames):
 class Resource:
 
     __fieldnames__ = None
+    __object__ = None
     __type__ = None
     _registra_method = None
 
@@ -37,7 +38,7 @@ class Resource:
         self.__object__ = self.__type__(**kwargs)
 
     def __dir__(self):
-        return super(Resource, self).__dir__() + self.__fieldnames__
+        return dir(super(Resource, self)) + dir(self.__object__)
 
     def __eq__(self, other):
         return all(getattr(self, name) ==
