@@ -56,6 +56,7 @@ ORDEN_FIELDNAMES = """
 
 class Resource:
 
+    _field_names = None
     _submit_method = None
     _type = None
 
@@ -64,7 +65,7 @@ class Resource:
 
     def _compute_signature(self):
         fields = '||'
-        for fieldname in ORDEN_FIELDNAMES:
+        for fieldname in self._field_names:
             field = getattr(self._object, fieldname) or ''
             field = str(field)
             fields += '|' + field
@@ -80,5 +81,6 @@ class Resource:
 
 class Orden(Resource):
 
+    _field_names = ORDEN_FIELDNAMES
     _submit_method = client.service.registraOrden
     _type = client.get_type('ns0:ordenPagoWS')
