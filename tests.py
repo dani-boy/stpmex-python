@@ -27,3 +27,14 @@ def test_join_fields():
               'pago prueba||||||123123||T||3|0|||').encode('utf-8')
 
     assert orden._joined_fields == joined
+
+
+def test_create_orden():
+    orden = Orden(
+        conceptoPago='concepto',
+        cuentaBeneficiario='846180000400000001',
+        institucionContraparte=846,
+        monto=1234,
+        nombreBeneficiario='Benito Juárez')
+    resp = orden.submit()
+    assert resp['descripcionError'] is None
