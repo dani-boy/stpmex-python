@@ -7,6 +7,11 @@ class AccountType(Enum):
     CLABE = 40
 
 
+class Prioridad(Enum):
+    normal = 0
+    alta = 1
+
+
 class Institucion(Enum):
     BANCOMEXT = 37006
     BANOBRAS = 37009

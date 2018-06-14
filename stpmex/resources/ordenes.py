@@ -4,7 +4,7 @@ import time
 from stpmex.soap import client
 
 from .base import Resource, STP_EMPRESA
-from .types import AccountType
+from .types import AccountType, Prioridad
 
 
 ORDEN_FIELDNAMES = """
@@ -51,6 +51,7 @@ ORDEN_DEFAULTS = dict(
     tipoCuentaBeneficiario=AccountType.CLABE.value,
     topologia='T',
     medioEntrega=3,
+    prioridad=Prioridad.alta.value,
     claveRastreo=lambda: f'CR{int(time.time())}',
     referenciaNumerica=lambda: random.randint(10 ** 6, 10 ** 7)
 )
