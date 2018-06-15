@@ -3,5 +3,5 @@ import os
 import zeep
 
 
-STP_WSDL = os.environ['STP_WSDL']
-client = zeep.Client(STP_WSDL)
+actualiza_client = zeep.Client(os.environ['STP_ACTUALIZA_WSDL'])
+consulta_client = zeep.Client(os.environ['STP_CONSULTA_WSDL'])

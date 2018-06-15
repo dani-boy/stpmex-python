@@ -1,7 +1,7 @@
 import random
 import time
 
-from stpmex.soap import client
+from stpmex.soap import actualiza_client
 
 from .base import Resource, STP_EMPRESA
 from .types import AccountType, Prioridad
@@ -60,20 +60,12 @@ ORDEN_DEFAULTS = dict(
 class Orden(Resource):
 
     __fieldnames__ = ORDEN_FIELDNAMES
-    __type__ = client.get_type('ns0:ordenPagoWS')
+    __type__ = actualiza_client.get_type('ns0:ordenPagoWS')
     _id = None
     _defaults = ORDEN_DEFAULTS
-    _registra_method = client.service.registraOrden
+    _registra_method = actualiza_client.service.registraOrden
 
     def registra(self):
         resp = super(Orden, self).registra()
         self._id = resp.id
-        return resp
-
-    def confirma(self):
-        resp = client.service.confirmaCargo(
-            idOrden=self._id,
-            nuevoEstado='Exito',
-            folio=STP_EMPRESA
-        )
         return resp
