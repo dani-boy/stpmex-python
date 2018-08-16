@@ -11,7 +11,9 @@ venv:
 		pip install --quiet --upgrade pip
 
 clean:
-		rm -rf venv/
+		find . -name '__pycache__' -exec rm -r "{}" +
+		find . -name '*.pyc' -delete
+		find . -name '*~' -delete
 
 install: venv
 		pip install --quiet --upgrade -r requirements.txt
