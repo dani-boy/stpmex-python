@@ -1,2 +1,9 @@
+import os
+
+import zeep
+
 from .resources import Orden
-from .soap import actualiza_client
+
+
+wsdl_path = os.path.join(os.path.dirname(__file__), 'SpeiServices.wsdl')
+actualiza_client = zeep.Client(wsdl_path)

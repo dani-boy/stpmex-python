@@ -1,7 +1,7 @@
 import random
 import time
 
-from stpmex.soap import actualiza_client
+from stpmex import actualiza_client
 
 from .base import Resource, STP_EMPRESA
 from .types import AccountType, Prioridad
