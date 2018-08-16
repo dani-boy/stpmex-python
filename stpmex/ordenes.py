@@ -1,9 +1,7 @@
 import random
 import time
 
-from stpmex import actualiza_client
-
-from .base import Resource, STP_EMPRESA
+from .base import ACTUALIZA_CLIENT, Resource, STP_EMPRESA
 from .types import AccountType, Prioridad
 
 
@@ -60,12 +58,12 @@ ORDEN_DEFAULTS = dict(
 class Orden(Resource):
 
     __fieldnames__ = ORDEN_FIELDNAMES
-    __type__ = actualiza_client.get_type('ns0:ordenPagoWS')
+    __type__ = ACTUALIZA_CLIENT.get_type('ns0:ordenPagoWS')
     _id = None
     _defaults = ORDEN_DEFAULTS
-    _registra_method = actualiza_client.service.registraOrden
 
     def registra(self):
-        resp = super(Orden, self).registra()
+        self.firma = self._compute_signature()
+        resp = ACTUALIZA_CLIENT.service.registraOrden(self.__object__)
         self._id = resp.id
         return resp

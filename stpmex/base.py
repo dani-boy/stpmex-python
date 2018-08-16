@@ -1,6 +1,7 @@
 import os
 from base64 import b64encode
 
+import zeep
 from OpenSSL import crypto
 
 
@@ -9,6 +10,9 @@ STP_PEM_FILEPATH = os.environ['STP_PEM_FILEPATH']
 STP_PEM_PASSPHRASE = os.environ['STP_PEM_PASSPHRASE'].encode('ascii')
 STP_PREFIJO = int(os.environ['STP_PREFIJO'])
 SIGN_DIGEST = 'RSA-SHA256'
+WSDL_PATH = os.path.join(os.path.dirname(__file__), 'SpeiServices.wsdl')
+ACTUALIZA_CLIENT = zeep.Client(WSDL_PATH)
+
 
 with open(STP_PEM_FILEPATH, 'rb') as pkey_file:
     pkey = crypto.load_privatekey(
@@ -33,7 +37,6 @@ class Resource:
     __object__ = None
     __type__ = None
     _defaults = {}
-    _registra_method = None
 
     def __init__(self, **kwargs):
         for default, value in self._defaults.items():
@@ -43,6 +46,7 @@ class Resource:
                 else:
                     kwargs[default] = value
         self.__object__ = self.__type__(**kwargs)
+        self.firma = None
 
     def __dir__(self):
         return dir(super(Resource, self)) + dir(self.__object__)
@@ -83,7 +87,3 @@ class Resource:
     def _compute_signature(self):
         signature = crypto.sign(pkey, self._joined_fields, SIGN_DIGEST)
         return b64encode(signature).decode('ascii')
-
-    def registra(self):
-        self.firma = self._compute_signature()
-        return self._registra_method(self.__object__)
