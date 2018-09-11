@@ -10,7 +10,8 @@ STP_PEM_FILEPATH = os.environ['STP_PEM_FILEPATH']
 STP_PEM_PASSPHRASE = os.environ['STP_PEM_PASSPHRASE'].encode('ascii')
 STP_PREFIJO = int(os.environ['STP_PREFIJO'])
 SIGN_DIGEST = 'RSA-SHA256'
-WSDL_PATH = os.path.join(os.path.dirname(__file__), 'SpeiServices.wsdl')
+WSDL_PATH = ('https://demo.stpmex.com:7024/speidemo/webservices/'
+             'SpeiActualizaServices?wsdl')
 ACTUALIZA_CLIENT = zeep.Client(WSDL_PATH)
 
 
