@@ -1,13 +1,12 @@
 import setuptools
 
 requirements = [
-	'zeep',
-	'pyopenssl'
+    'zeep',
+    'pyopenssl'
 ]
 
 with open('README.md', 'r') as f:
     long_description = f.read()
-
 
 setuptools.setup(
     name='stpmex',
@@ -24,7 +23,7 @@ setuptools.setup(
         'dev': [
             'pytest>=3',
             'ipython',
-	    'ipdb',
+            'ipdb',
             'pycodestyle',
             'pytest'
         ]

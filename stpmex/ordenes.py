@@ -1,7 +1,7 @@
 import random
 import time
 
-from .base import ACTUALIZA_CLIENT, Resource, STP_EMPRESA
+from .base import ACTUALIZA_CLIENT, Resource
 from .types import AccountType, Prioridad
 
 
@@ -43,7 +43,6 @@ ORDEN_FIELDNAMES = """
     """.split()
 
 ORDEN_DEFAULTS = dict(
-    empresa=STP_EMPRESA,
     rfcCurpBeneficiario='ND',
     tipoPago=1,
     tipoCuentaBeneficiario=AccountType.CLABE.value,
