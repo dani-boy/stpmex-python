@@ -1,5 +1,9 @@
 import setuptools
 
+requirements = [
+	'zeep',
+	'pyopenssl'
+]
 
 with open('README.md', 'r') as f:
     long_description = f.read()
@@ -15,9 +19,14 @@ setuptools.setup(
     long_description_content_type='text/markdown',
     url='https://github.com/cuenca-mx/stpmex-python',
     packages=setuptools.find_packages(),
+    install_requires=requirements,
     extras_require={
         'dev': [
-            'pytest>=3'
+            'pytest>=3',
+            'ipython',
+	    'ipdb',
+            'pycodestyle',
+            'pytest'
         ]
     },
     classifiers=[
