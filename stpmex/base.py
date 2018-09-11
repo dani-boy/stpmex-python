@@ -4,10 +4,10 @@ import zeep
 from OpenSSL import crypto
 
 
-STP_EMPRESA = ''
-STP_PRIVKEY = ''
-STP_PRIVKEY_PASSPHRASE = ''
-STP_PREFIJO = 0
+STP_EMPRESA = None
+STP_PRIVKEY = None
+STP_PRIVKEY_PASSPHRASE = None
+STP_PREFIJO = None
 SIGN_DIGEST = 'RSA-SHA256'
 WSDL_PATH = ('https://demo.stpmex.com:7024/speidemo/webservices/'
              'SpeiActualizaServices?wsdl')
@@ -79,11 +79,7 @@ class Resource:
     def _joined_fields(self):
         return _join_fields(self, self.__fieldnames__)
 
-    @staticmethod
-    def _load_private_key():
-        return crypto.load_privatekey(crypto.FILETYPE_PEM, STP_PRIVKEY, STP_PRIVKEY_PASSPHRASE.encode('ascii'))
-
     def _compute_signature(self):
         self.empresa = STP_EMPRESA
-        signature = crypto.sign(Resource._load_private_key(), self._joined_fields, SIGN_DIGEST)
+        signature = crypto.sign(STP_PRIVKEY, self._joined_fields, SIGN_DIGEST)
         return b64encode(signature).decode('ascii')
