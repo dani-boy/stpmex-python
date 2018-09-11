@@ -1,5 +1,5 @@
 from stpmex import Orden
-from stpmex.resources.types import Institucion
+from stpmex.types import Institucion
 
 
 def test_join_fields():
