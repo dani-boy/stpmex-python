@@ -2,7 +2,7 @@ from stpmex import Orden
 from stpmex.types import Institucion
 
 
-def test_join_fields():
+def test_join_fields(initialize_stpmex):
     orden = Orden(
         institucionContraparte='846',
         empresa='STP',
@@ -30,7 +30,7 @@ def test_join_fields():
     assert orden._joined_fields == joined
 
 
-def test_create_orden():
+def test_create_orden(initialize_stpmex):
     orden = Orden(
         conceptoPago='concepto',
         institucionOperante=Institucion.STP.value,
