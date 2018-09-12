@@ -2,5 +2,5 @@ language: python
 python:
  - "3.6"
 install:
-  python setup.py develop
+  pip install -q -e .[dev]
 script: make test
