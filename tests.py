@@ -1,10 +1,15 @@
 from stpmex import Orden
 from stpmex.types import Institucion
+import pytest
 import vcr
 
 
+WRONG_BENEFIT = "asdfghjklñasdfghjklñasdfghjklñasdfghjklñ"
+WRONG_REFERENCE = "12345678"
+
+
 @vcr.use_cassette()
-def test_join_fields(initialize_stpmex, mock_orden):
+def test_join_fields(initialize_stpmex):
     orden = Orden(
         institucionContraparte='846',
         empresa='STP',
@@ -32,17 +37,76 @@ def test_join_fields(initialize_stpmex, mock_orden):
     assert orden._joined_fields == joined
 
 
-@vcr.use_cassette()
-def test_create_orden(initialize_stpmex):
-    orden = Orden(
+@pytest.fixture
+def get_order():
+    return Orden(
         conceptoPago='concepto',
         institucionOperante=Institucion.STP.value,
         cuentaBeneficiario='846180000400000001',
         institucionContraparte=846,
         monto=1234,
         nombreBeneficiario='Benito Juárez')
+
+
+@vcr.use_cassette()
+def test_create_orden(initialize_stpmex, get_order):
+    orden = get_order
     resp = orden.registra()
     assert resp.descripcionError is None
     assert type(resp.id) is int
     assert resp.id > 0
     assert orden._id == resp.id
+
+
+@vcr.use_cassette()
+def test_bad_benefit(initialize_stpmex, get_order):
+    order = get_order
+    order.nombreBeneficiario = WRONG_BENEFIT
+    resp = order.registra()
+    assert resp.descripcionError is not None
+    assert resp.id == 0
+
+
+@vcr.use_cassette()
+def test_null_benefit(initialize_stpmex, get_order):
+    order = get_order
+    order.nombreBeneficiario = None
+    resp = order.registra()
+    assert resp.descripcionError is not None
+    assert resp.id == 0
+
+
+@vcr.use_cassette()
+def test_null_clave(initialize_stpmex, get_order):
+    order = get_order
+    order.claveRastreo = None
+    resp = order.registra()
+    assert resp.descripcionError is not None
+    assert resp.id == 0
+
+
+@vcr.use_cassette()
+def test_null_concepto(initialize_stpmex, get_order):
+    order = get_order
+    order.conceptoPago = None
+    resp = order.registra()
+    assert resp.descripcionError is not None
+    assert resp.id == 0
+
+
+@vcr.use_cassette()
+def test_wrong_reference(initialize_stpmex, get_order):
+    order = get_order
+    order.referenciaNumerica = WRONG_REFERENCE
+    resp = order.registra()
+    assert resp.descripcionError is not None
+    assert resp.id == 0
+
+
+@vcr.use_cassette()
+def test_null_reference(initialize_stpmex, get_order):
+    order = get_order
+    order.referenciaNumerica = None
+    resp = order.registra()
+    assert resp.descripcionError is not None
+    assert resp.id == 0

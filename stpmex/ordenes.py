@@ -4,7 +4,6 @@ import time
 from .base import ACTUALIZA_CLIENT, Resource
 from .types import AccountType, Prioridad
 
-
 ORDEN_FIELDNAMES = """
     institucionContraparte
     empresa
@@ -53,15 +52,36 @@ ORDEN_DEFAULTS = dict(
     referenciaNumerica=lambda: random.randint(10 ** 6, 10 ** 7)
 )
 
+VALIDATIONS = dict(
+    nombreBeneficiario=dict(
+        required=True,
+        maxLength=39
+    ),
+    claveRastreo=dict(
+        required=True
+    ),
+    conceptoPago=dict(
+        required=True
+    ),
+    referenciaNumerica=dict(
+        required=True,
+        maxLength=7
+    )
+)
+
 
 class Orden(Resource):
-
     __fieldnames__ = ORDEN_FIELDNAMES
     __type__ = ACTUALIZA_CLIENT.get_type('ns0:ordenPagoWS')
+    __validations__ = VALIDATIONS
     _id = None
     _defaults = ORDEN_DEFAULTS
 
     def registra(self):
+        validation_errors = self._is_valid()
+        if validation_errors is not None:
+            return validation_errors
+
         self.firma = self._compute_signature()
         resp = ACTUALIZA_CLIENT.service.registraOrden(self.__object__)
         self._id = resp.id

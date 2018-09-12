@@ -1,8 +1,6 @@
 from base64 import b64encode
-
 import zeep
 from OpenSSL import crypto
-
 
 STP_EMPRESA = None
 STP_PRIVKEY = None
@@ -26,11 +24,29 @@ def _join_fields(obj, fieldnames):
     return ('||' + '|'.join(fields) + '||').encode('utf-8')
 
 
-class Resource:
+def _validate(field, field_value, validation, validation_value):
+    # Evalua si el valor de un campo es válido y devuelve un mensaje de error
+    if validation == 'required' and validation_value and field_value is None:
+        return 'Field {} is required'.format(field)
+    if validation == 'maxLength' and validation_value < len(str(field_value)):
+        return 'Length of field {} must be lower than {}'.format(field, validation_value)
+    return None
 
+
+class Error:
+    descripcionError: str
+    id: int
+
+    def __init__(self, error, id):
+        self.descripcionError = error
+        self.id = id
+
+
+class Resource:
     __fieldnames__ = None
     __object__ = None
     __type__ = None
+    __validations__ = None
     _defaults = {}
 
     def __init__(self, **kwargs):
@@ -83,3 +99,17 @@ class Resource:
         self.empresa = STP_EMPRESA
         signature = crypto.sign(STP_PRIVKEY, self._joined_fields, SIGN_DIGEST)
         return b64encode(signature).decode('ascii')
+
+    def _is_valid_field(self, field):
+        # Obtiene el campo a ser evaluado y el diccionario de validaciones que deban hacerse
+        vals = self.__validations__[field]
+        return [_validate(field, getattr(self, field), r, vals[r]) for r in vals]
+
+    def _is_valid(self):
+        # Por todos los campos a ser validados, ejecuta la función _is_valid_field y devuelve todos los errores
+        errors = list(filter((lambda x: x is not None),
+                             [error for errors in
+                              map((lambda r: self._is_valid_field(r)), self.__validations__) for error in errors]))
+        if len(errors) > 0:
+            return Error(",".join(errors), 0)
+        return None
