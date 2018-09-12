@@ -1,8 +1,10 @@
 from stpmex import Orden
 from stpmex.types import Institucion
+import vcr
 
 
-def test_join_fields(initialize_stpmex):
+@vcr.use_cassette()
+def test_join_fields(initialize_stpmex, mock_orden):
     orden = Orden(
         institucionContraparte='846',
         empresa='STP',
@@ -30,6 +32,7 @@ def test_join_fields(initialize_stpmex):
     assert orden._joined_fields == joined
 
 
+@vcr.use_cassette()
 def test_create_orden(initialize_stpmex):
     orden = Orden(
         conceptoPago='concepto',

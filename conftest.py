@@ -1,5 +1,12 @@
 import pytest
 import stpmex
+from unittest.mock import Mock
+from stpmex.ordenes import Orden
+
+
+@pytest.fixture
+def mock_orden():
+    return Mock(spec=Orden)
 
 
 @pytest.fixture

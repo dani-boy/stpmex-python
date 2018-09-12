@@ -1,0 +1,31 @@
+interactions:
+- request:
+    body: "<?xml version='1.0' encoding='utf-8'?>\n<soap-env:Envelope xmlns:soap-env=\"\
+      http://schemas.xmlsoap.org/soap/envelope/\"><soap-env:Body><ns0:registraOrden\
+      \ xmlns:ns0=\"http://h2h.integration.spei.enlacefi.lgec.com/\"><ordenPago><claveRastreo>CR1536711056</claveRastreo><conceptoPago>concepto</conceptoPago><cuentaBeneficiario>846180000400000001</cuentaBeneficiario><empresa>TAMIZI</empresa><firma>iXh//Zday4OMzt/ztofLphbI7wHlGXo3AgbrEZGa6VdQteQVgR+OoaBRGNt+pT+Nt3i1kwp/9Sv45pQqw6GlWA/7QJDr1jcd5BbFDwUiP4KulaBDChj43OLl+WzMNnedcrtQPsQmQr59KL2l+FqgNc9eS/YzlmIGA1qQNbnJfCk=</firma><institucionContraparte>846</institucionContraparte><institucionOperante>90646</institucionOperante><medioEntrega>3</medioEntrega><monto>1234</monto><nombreBeneficiario>Benito\
+      \ Ju\xE1rez</nombreBeneficiario><prioridad>1</prioridad><referenciaNumerica>8013355</referenciaNumerica><rfcCurpBeneficiario>ND</rfcCurpBeneficiario><tipoCuentaBeneficiario>40</tipoCuentaBeneficiario><tipoPago>1</tipoPago><topologia>T</topologia></ordenPago></ns0:registraOrden></soap-env:Body></soap-env:Envelope>"
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['1056']
+      Content-Type: [text/xml; charset=utf-8]
+      Cookie: [JSESSIONID=cu7LHyCAhv5DfaQLeYAOuts7qKSX6aRQl1aNDz1LDdfqOls_WsiZ!-221951421]
+      SOAPAction: ['""']
+      User-Agent: [Zeep/3.1.0 (www.python-zeep.org)]
+    method: POST
+    uri: https://demo.stpmex.com:7024/speidemo/webservices/SpeiActualizaServices
+  response:
+    body: {string: '<?xml version=''1.0'' encoding=''UTF-8''?><S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/"><S:Body><ns0:registraOrdenResponse
+        xmlns:ns0="http://h2h.integration.spei.enlacefi.lgec.com/"><return><id>5554284</id></return></ns0:registraOrdenResponse></S:Body></S:Envelope>'}
+    headers:
+      Cache-Control: ['no-cache, no-store, must-revalidate, pre-check=0, post-check=0,
+          max-age=0, s-maxage=0']
+      Content-Type: [text/xml; charset=utf-8]
+      Date: ['Wed, 12 Sep 2018 00:12:20 GMT']
+      Expires: ['0']
+      Pragma: [no-cache]
+      Strict-Transport-Security: [max-age=31536000; includeSubdomains]
+      X-Frame-Options: [DENY]
+    status: {code: 200, message: OK}
+version: 1

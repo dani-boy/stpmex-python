@@ -25,7 +25,8 @@ setuptools.setup(
             'ipython',
             'ipdb',
             'pycodestyle',
-            'pytest'
+            'pytest',
+            'vcrpy'
         ]
     },
     classifiers=[
