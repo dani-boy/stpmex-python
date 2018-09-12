@@ -1,6 +1,12 @@
 language: python
 python:
- - "3.6"
-install:
-  pip install -q -e .[dev]
+- '3.6'
+install: pip install -q -e .[dev]
 script: make test
+deploy:
+  provider: pypi
+  user: cuenca
+  password:
+    secure: Hkq4irMkiBaIrJCp6cL46Q3maBX5gMmCtfMINJAVm1vGG5aPMVzCqfqu1gYUvl8XoUg35yzPdtlsl4DFBiRGIu4QVNw3BlFXwvJQGLvWXv7RPFSxcbmLf/nQW69oRygaKgRK2ALxgUHbenarTSh8ty4rf40NRdrzmxp8mFkx1Igui95LNinX4UcapOjtE9x7AH0De72jtJeEI5XxTUoTlv/GtlRxtjXIt0FPYo98lI7i6+/9KUcc6i8K4DA/ZiaXXxM4x7zEon2ZUASYjdva0CT3vpO54D3Vp6aAb8zq/hc9kUfRqFg0kMaXKZoatiRAkuf6bgSkducR5ChSAcHDaCllpG4c79M8qr0l21hcMf5aH0ubIiRVl90Ki+Xegs8S9OyhMQshdxRFYRJkTzBTmG+vquPeg1sO41S/0w3phTG8y+ONxlIeFs2oGKNNmxGuEGsH75WvYCZ2hOj+z5bxK+kpAA2RKgGdvzzsJk8YXoKKGjK7VyB/CHI4nWlMKkIoRwgMVBAWrsaGV43tKITfo24eKBnp0o+nBTMq5jUpNoTRdCbX3d+XA3b7KgS4ig1IqNtWnzabYQ/6fn2seNdddoYLAqEIRortkfiMxfAS+xnEXmIi4+S4L70ycvybyWdB/19MPdyLPiL6PhXTvDTBwjLz/sONTGcuOVpSwm09r74=
+  on:
+    tags: true
