@@ -1,7 +1,7 @@
 import random
 import time
 
-from .base import ACTUALIZA_CLIENT, Resource
+from .base import Resource
 from .types import AccountType, Prioridad
 
 ORDEN_FIELDNAMES = """
@@ -72,7 +72,7 @@ VALIDATIONS = dict(
 
 class Orden(Resource):
     __fieldnames__ = ORDEN_FIELDNAMES
-    __type__ = ACTUALIZA_CLIENT.get_type('ns0:ordenPagoWS')
+    __type__ = 'ns0:ordenPagoWS'
     __validations__ = VALIDATIONS
     _id = None
     _defaults = ORDEN_DEFAULTS
@@ -83,6 +83,6 @@ class Orden(Resource):
             return validation_errors
 
         self.firma = self._compute_signature()
-        resp = ACTUALIZA_CLIENT.service.registraOrden(self.__object__)
+        resp = self._invoke_method('registraOrden')
         self._id = resp.id
         return resp

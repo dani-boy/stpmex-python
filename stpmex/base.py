@@ -7,9 +7,7 @@ STP_PRIVKEY = None
 STP_PRIVKEY_PASSPHRASE = None
 STP_PREFIJO = None
 SIGN_DIGEST = 'RSA-SHA256'
-WSDL_PATH = ('https://demo.stpmex.com:7024/speidemo/webservices/'
-             'SpeiActualizaServices?wsdl')
-ACTUALIZA_CLIENT = zeep.Client(WSDL_PATH)
+ACTUALIZA_CLIENT = None
 
 
 def _join_fields(obj, fieldnames):
@@ -56,7 +54,7 @@ class Resource:
                     kwargs[default] = value()
                 else:
                     kwargs[default] = value
-        self.__object__ = self.__type__(**kwargs)
+        self.__object__ = ACTUALIZA_CLIENT.get_type(self.__type__)(**kwargs)
         self.firma = None
 
     def __dir__(self):
@@ -100,16 +98,20 @@ class Resource:
         signature = crypto.sign(STP_PRIVKEY, self._joined_fields, SIGN_DIGEST)
         return b64encode(signature).decode('ascii')
 
+    # Obtiene el campo a ser evaluado y el diccionario de validaciones que deban hacerse
     def _is_valid_field(self, field):
-        # Obtiene el campo a ser evaluado y el diccionario de validaciones que deban hacerse
+        #Validaciones que aplican en este campo
         vals = self.__validations__[field]
         return [_validate(field, getattr(self, field), r, vals[r]) for r in vals]
 
+    # Por todos los campos a ser validados, ejecuta la función _is_valid_field y devuelve todos los errores
     def _is_valid(self):
-        # Por todos los campos a ser validados, ejecuta la función _is_valid_field y devuelve todos los errores
         errors = list(filter((lambda x: x is not None),
                              [error for errors in
                               map((lambda r: self._is_valid_field(r)), self.__validations__) for error in errors]))
         if len(errors) > 0:
             return Error(",".join(errors), 0)
         return None
+
+    def _invoke_method(self, method):
+        return ACTUALIZA_CLIENT.service[method](self.__object__)
