@@ -2,7 +2,6 @@ from .ordenes import Orden
 from OpenSSL import crypto
 from .base import STP_EMPRESA, STP_PREFIJO, STP_PRIVKEY, STP_PRIVKEY_PASSPHRASE
 from requests import Session
-from requests.auth import HTTPBasicAuth
 from zeep import Client
 from zeep.transports import Transport
 
@@ -20,9 +19,9 @@ def configure(empresa: str, priv_key: str, priv_key_passphrase: str, prefijo: in
     if proxy is not None:
         session = Session()
         session.proxies = {
-            'https': proxy
+            'https': 'https://' + proxy_user + ':' + proxy_password + '@' + proxy,
+            'http': 'http://' + proxy_user + ':' + proxy_password + '@' + proxy
         }
-        session.auth = HTTPBasicAuth(proxy_user, proxy_password)
         base.ACTUALIZA_CLIENT = Client(wsdl_path, transport=Transport(session=session))
     else:
         base.ACTUALIZA_CLIENT = Client(wsdl_path)
