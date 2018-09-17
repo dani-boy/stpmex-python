@@ -21,9 +21,9 @@ install: venv
 install-dev: install
 		pip install --quiet --upgrade -r requirements-dev.txt
 
-test:
+test: lint
 		pytest -v tests.py
 
 lint:
-		pycodestyle stpmex
+		pycodestyle stpmex setup.py
 
