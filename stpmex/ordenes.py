@@ -78,10 +78,7 @@ class Orden(Resource):
     _defaults = ORDEN_DEFAULTS
 
     def registra(self):
-        validation_errors = self._is_valid()
-        if validation_errors is not None:
-            return validation_errors
-
+        self._is_valid()
         self.firma = self._compute_signature()
         resp = self._invoke_method('registraOrden')
         self._id = resp.id

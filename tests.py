@@ -40,12 +40,12 @@ def test_join_fields(initialize_stpmex):
 @pytest.fixture
 def get_order():
     return Orden(
-        conceptoPago='concepto',
+        conceptoPago='Prueba',
         institucionOperante=Institucion.STP.value,
-        cuentaBeneficiario='846180000400000001',
-        institucionContraparte=846,
-        monto=1234,
-        nombreBeneficiario='Benito Juárez')
+        cuentaBeneficiario='072691004495711499',
+        institucionContraparte=Institucion.BANORTE_IXE.value,
+        monto=1.2,
+        nombreBeneficiario='Ricardo Sanchez')
 
 
 @vcr.use_cassette()
@@ -62,51 +62,45 @@ def test_create_orden(initialize_stpmex, get_order):
 def test_bad_benefit(initialize_stpmex, get_order):
     order = get_order
     order.nombreBeneficiario = WRONG_BENEFIT
-    resp = order.registra()
-    assert resp.descripcionError is not None
-    assert resp.id == 0
+    with pytest.raises(ValueError):
+        order.registra()
 
 
 @vcr.use_cassette()
 def test_null_benefit(initialize_stpmex, get_order):
     order = get_order
     order.nombreBeneficiario = None
-    resp = order.registra()
-    assert resp.descripcionError is not None
-    assert resp.id == 0
+    with pytest.raises(ValueError):
+        order.registra()
 
 
 @vcr.use_cassette()
 def test_null_clave(initialize_stpmex, get_order):
     order = get_order
     order.claveRastreo = None
-    resp = order.registra()
-    assert resp.descripcionError is not None
-    assert resp.id == 0
+    with pytest.raises(ValueError):
+        order.registra()
 
 
 @vcr.use_cassette()
 def test_null_concepto(initialize_stpmex, get_order):
     order = get_order
     order.conceptoPago = None
-    resp = order.registra()
-    assert resp.descripcionError is not None
-    assert resp.id == 0
+    with pytest.raises(ValueError):
+        order.registra()
 
 
 @vcr.use_cassette()
 def test_wrong_reference(initialize_stpmex, get_order):
     order = get_order
     order.referenciaNumerica = WRONG_REFERENCE
-    resp = order.registra()
-    assert resp.descripcionError is not None
-    assert resp.id == 0
+    with pytest.raises(ValueError):
+        order.registra()
 
 
 @vcr.use_cassette()
 def test_null_reference(initialize_stpmex, get_order):
     order = get_order
     order.referenciaNumerica = None
-    resp = order.registra()
-    assert resp.descripcionError is not None
-    assert resp.id == 0
+    with pytest.raises(ValueError):
+        order.registra()

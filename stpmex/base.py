@@ -1,5 +1,4 @@
 from base64 import b64encode
-import zeep
 from OpenSSL import crypto
 
 STP_EMPRESA = None
@@ -8,6 +7,8 @@ STP_PRIVKEY_PASSPHRASE = None
 STP_PREFIJO = None
 SIGN_DIGEST = 'RSA-SHA256'
 ACTUALIZA_CLIENT = None
+DEBUG_MODE = False
+HISTORY = None
 
 
 def _join_fields(obj, fieldnames):
@@ -23,21 +24,19 @@ def _join_fields(obj, fieldnames):
 
 
 def _validate(field, field_value, validation, validation_value):
-    # Evalua si el valor de un campo es válido y devuelve un mensaje de error
+    """
+        Evalua si el valor de un campo es válido y devuelve un mensaje de error
+    :param field: Nombre del campo
+    :param field_value: Valor del campo
+    :param validation: Tipo de validación a realizar
+    :param validation_value: Valor a validar
+    :return:
+    """
     if validation == 'required' and validation_value and field_value is None:
         return 'Field {} is required'.format(field)
     if validation == 'maxLength' and validation_value < len(str(field_value)):
         return 'Length of field {} must be lower than {}'.format(field, validation_value)
     return None
-
-
-class Error:
-    descripcionError: str
-    id: int
-
-    def __init__(self, error, id):
-        self.descripcionError = error
-        self.id = id
 
 
 class Resource:
@@ -98,20 +97,28 @@ class Resource:
         signature = crypto.sign(STP_PRIVKEY, self._joined_fields, SIGN_DIGEST)
         return b64encode(signature).decode('ascii')
 
-    # Obtiene el campo a ser evaluado y el diccionario de validaciones que deban hacerse
     def _is_valid_field(self, field):
-        #Validaciones que aplican en este campo
+        """
+            Obtiene el campo a ser evaluado y el diccionario de validaciones que deban hacerse
+        :param field: Campo a evaluar
+        :return: Lista de errores encontrados en este campo
+        """
+        # Validaciones que aplican en este campo
         vals = self.__validations__[field]
         return [_validate(field, getattr(self, field), r, vals[r]) for r in vals]
 
-    # Por todos los campos a ser validados, ejecuta la función _is_valid_field y devuelve todos los errores
     def _is_valid(self):
+        """
+            Por todos los campos a ser validados, ejecuta la función _is_valid_field y devuelve todos los errores
+        :return: None si no hay errores, de otra forma lanza una excepción con la lista de errores
+        """
         errors = list(filter((lambda x: x is not None),
                              [error for errors in
                               map((lambda r: self._is_valid_field(r)), self.__validations__) for error in errors]))
         if len(errors) > 0:
-            return Error(",".join(errors), 0)
+            raise ValueError(",".join(errors))
         return None
 
     def _invoke_method(self, method):
-        return ACTUALIZA_CLIENT.service[method](self.__object__)
+        res = ACTUALIZA_CLIENT.service[method](self.__object__)
+        return res

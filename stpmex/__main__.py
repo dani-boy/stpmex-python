@@ -38,14 +38,15 @@ def order():
         with open(DEFAULT_FILE_NAME, 'r') as f:
             config = json.load(f)
     except:
-        print("No configuration file found, use: stpmex config")
+        print("No configuration file found, use first: stpmex config")
         return
 
     stpmex.configure(wsdl_path=config['wsdl'], empresa=config['empresa'], priv_key=config['private_key'],
                      priv_key_passphrase=config['pkey_passphrase'], prefijo=config['prefijo'],
                      proxy=None if 'proxy' not in config else config['proxy'],
                      proxy_user=None if 'user' not in config else config['user'],
-                     proxy_password=None if 'password' not in config else config['password'])
+                     proxy_password=None if 'password' not in config else config['password'],
+                     )
 
     print("Connection established")
 
@@ -53,7 +54,7 @@ def order():
     order.institucionOperante= Institucion.STP.value
     order.nombreBeneficiario = input('Nombre del beneficiario: ')
     order.cuentaBeneficiario = input('CLABE del beneficiario: ')
-    order.institucionContraparte = int(order.cuentaBeneficiario[:3])
+    order.institucionContraparte = input('Institución de contraparte: ')
     order.conceptoPago = input('Concepto de pago: ')
     order.monto = float(input('Monto: ')) # I assume you won't put a str here
     rfc = input('RFC o CURP de beneficiario (opcional): ')
@@ -69,8 +70,8 @@ def order():
     print("Sending order....")
     r = order.registra()
 
-    print("Finished")
     print(r)
+    print("Finished")
 
 
 def main():

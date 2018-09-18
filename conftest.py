@@ -21,8 +21,8 @@ def initialize_stpmex():
 
     wsdl = 'https://demo.stpmex.com:7024/speidemo/webservices/SpeiActualizaServices?wsdl'
     pkey_passphrase = '12345678'
+
     empresa = 'TAMIZI'
     prefijo = 1570
-    proxy = 'ec2-34-229-157-51.compute-1.amazonaws.com:3128/'
     stpmex.configure(wsdl_path=wsdl, empresa=empresa, priv_key=pkey, priv_key_passphrase=pkey_passphrase,
-                     prefijo=prefijo, proxy=proxy, proxy_user='admin', proxy_password='admin')
+                     prefijo=prefijo, proxy=None, proxy_user=None, proxy_password=None)
