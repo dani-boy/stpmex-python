@@ -1,3 +1,6 @@
+"""
+CLI para enviar órdenes a STP.
+"""
 import argparse
 import json
 import stpmex
@@ -8,6 +11,13 @@ DEFAULT_FILE_NAME = 'stp.config'
 
 
 def config():
+    """
+    Crea un archivo de configuración con las credenciales de STP para poder
+    enviar órdenes posteriormente. PRECAUCIÓN: El archivo se guarda sin
+    cifrar y en la ubicación donde se encuentre la línea de comandos en ese
+    momento.
+    :return:
+    """
     print('Configuring connection')
     print('It will create a stp.config file')
 
@@ -34,29 +44,37 @@ def config():
 
 
 def order():
+    """
+    Crea una nueva orden para enviar a STP
+    :return:
+    """
     try:
         with open(DEFAULT_FILE_NAME, 'r') as f:
             config = json.load(f)
-    except:
+    except IOError:
         print("No configuration file found, use first: stpmex config")
         return
 
-    stpmex.configure(wsdl_path=config['wsdl'], empresa=config['empresa'], priv_key=config['private_key'],
-                     priv_key_passphrase=config['pkey_passphrase'], prefijo=config['prefijo'],
+    stpmex.configure(wsdl_path=config['wsdl'], empresa=config['empresa'],
+                     priv_key=config['private_key'],
+                     priv_key_passphrase=config['pkey_passphrase'],
+                     prefijo=config['prefijo'],
                      proxy=None if 'proxy' not in config else config['proxy'],
-                     proxy_user=None if 'user' not in config else config['user'],
-                     proxy_password=None if 'password' not in config else config['password'],
+                     proxy_user=None if 'user' not in config
+                     else config['user'],
+                     proxy_password=None if 'password' not in config
+                     else config['password'],
                      )
 
     print("Connection established")
 
     order = Orden()
-    order.institucionOperante= Institucion.STP.value
+    order.institucionOperante = Institucion.STP.value
     order.nombreBeneficiario = input('Nombre del beneficiario: ')
     order.cuentaBeneficiario = input('CLABE del beneficiario: ')
     order.institucionContraparte = input('Institución de contraparte: ')
     order.conceptoPago = input('Concepto de pago: ')
-    order.monto = float(input('Monto: ')) # I assume you won't put a str here
+    order.monto = float(input('Monto: '))  # I assume you won't put a str here
     rfc = input('RFC o CURP de beneficiario (opcional): ')
     if rfc:
         order.rfcCurpBeneficiario = rfc
@@ -75,9 +93,14 @@ def order():
 
 
 def main():
+    """
+    Función principal, recibe como argumento la función a utilizar
+    :return:
+    """
     parser = argparse.ArgumentParser(description='Creates an order to STP')
     parser.add_argument('option', choices=['config', 'order'],
-                        help="'config' to configure the client, 'order' for creating a new order")
+                        help="'config' to configure the client,"
+                             "'order' for creating a new order")
     args = parser.parse_args()
     if args.option == 'config':
         config()

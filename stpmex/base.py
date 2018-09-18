@@ -35,7 +35,8 @@ def _validate(field, field_value, validation, validation_value):
     if validation == 'required' and validation_value and field_value is None:
         return 'Field {} is required'.format(field)
     if validation == 'maxLength' and validation_value < len(str(field_value)):
-        return 'Length of field {} must be lower than {}'.format(field, validation_value)
+        return 'Length of field {} must be lower than {}'\
+            .format(field, validation_value)
     return None
 
 
@@ -99,22 +100,28 @@ class Resource:
 
     def _is_valid_field(self, field):
         """
-            Obtiene el campo a ser evaluado y el diccionario de validaciones que deban hacerse
+            Obtiene el campo a ser evaluado y el diccionario de validaciones
+            que deban hacerse
         :param field: Campo a evaluar
         :return: Lista de errores encontrados en este campo
         """
         # Validaciones que aplican en este campo
         vals = self.__validations__[field]
-        return [_validate(field, getattr(self, field), r, vals[r]) for r in vals]
+        return [_validate(field, getattr(self, field), r, vals[r])
+                for r in vals]
 
     def _is_valid(self):
         """
-            Por todos los campos a ser validados, ejecuta la función _is_valid_field y devuelve todos los errores
-        :return: None si no hay errores, de otra forma lanza una excepción con la lista de errores
+            Por todos los campos a ser validados, ejecuta la función
+            _is_valid_field y devuelve todos los errores
+        :return: None si no hay errores, de otra forma lanza una
+            excepción con la lista de errores
         """
         errors = list(filter((lambda x: x is not None),
                              [error for errors in
-                              map((lambda r: self._is_valid_field(r)), self.__validations__) for error in errors]))
+                              map((lambda r: self._is_valid_field(r)),
+                                  self.__validations__)
+                              for error in errors]))
         if len(errors) > 0:
             raise ValueError(",".join(errors))
         return None
