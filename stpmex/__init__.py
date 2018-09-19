@@ -8,8 +8,8 @@ from requests import Session
 from .ordenes import Orden
 from .base import STP_EMPRESA, STP_PREFIJO, STP_PRIVKEY, STP_PRIVKEY_PASSPHRASE
 
-DEFAULT_WSDL = 'https://demo.stpmex.com:7024/speidemo/webservices/' \
-               'SpeiActualizaServices?wsdl'
+DEFAULT_WSDL = ('https://demo.stpmex.com:7024/speidemo/webservices/SpeiActual'
+                'izaServices?wsdl')
 
 
 def configure(empresa: str, priv_key: str, priv_key_passphrase: str,
@@ -39,10 +39,8 @@ def configure(empresa: str, priv_key: str, priv_key_passphrase: str,
     if proxy is not None:
         session = Session()
         session.proxies = {
-            'https': 'https://' + proxy_user + ':' + proxy_password
-                     + '@' + proxy,
-            'http': 'http://' + proxy_user + ':' + proxy_password
-                    + '@' + proxy
+            'https': f"https://{proxy_user}:{proxy_password}@{proxy}",
+            'http':  f"http://{proxy_user}:{proxy_password}@{proxy}"
         }
         base.ACTUALIZA_CLIENT = Client(wsdl_path,
                                        transport=Transport(session=session))

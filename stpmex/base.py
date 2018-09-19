@@ -60,6 +60,9 @@ class Resource:
     def __dir__(self):
         return dir(super(Resource, self)) + dir(self.__object__)
 
+    def __dict__(self):
+        return {r: self.__getattr__(r) for r in self.__fieldnames__}
+
     def __eq__(self, other):
         return all(getattr(self, name) ==
                    getattr(other, name) for name in self.__fieldnames__)
