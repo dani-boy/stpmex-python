@@ -3,7 +3,7 @@ PATH := ./venv/bin:${PATH}
 PYTHON=python3.7
 
 
-default: install
+all: test
 
 venv:
 		$(PYTHON) -m venv --prompt stpmex venv
@@ -15,11 +15,8 @@ clean:
 		find . -name '*.pyc' -delete
 		find . -name '*~' -delete
 
-install: venv
-		pip install --quiet --upgrade -r requirements.txt
-
-install-dev: install
-		pip install --quiet --upgrade -r requirements-dev.txt
+install-dev:
+		pip install -q -e .[dev]
 
 test: lint
 		pytest -v tests.py
@@ -27,3 +24,5 @@ test: lint
 lint:
 		pycodestyle stpmex setup.py
 
+
+.PHONY: all clean install-dev test lint
