@@ -55,6 +55,7 @@ class Resource:
                 else:
                     kwargs[default] = value
         self.__object__ = ACTUALIZA_CLIENT.get_type(self.__type__)(**kwargs)
+        self.empresa = STP_EMPRESA
         self.firma = None
 
     def __dir__(self):
@@ -97,7 +98,6 @@ class Resource:
         return _join_fields(self, self.__fieldnames__)
 
     def _compute_signature(self):
-        self.empresa = STP_EMPRESA
         signature = crypto.sign(STP_PRIVKEY, self._joined_fields, SIGN_DIGEST)
         return b64encode(signature).decode('ascii')
 
