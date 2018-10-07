@@ -45,7 +45,7 @@ def get_order():
         conceptoPago='Prueba',
         institucionOperante=Institucion.STP.value,
         cuentaBeneficiario='072691004495711499',
-        institucionContraparte=Institucion.BANORTE_IXE.value,
+        institucionContraparte=Institucion.BANORTE.value,
         monto=1.2,
         nombreBeneficiario='Ricardo Sanchez')
 
