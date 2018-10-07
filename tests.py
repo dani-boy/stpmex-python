@@ -1,4 +1,7 @@
+from clabe import BankCode
+
 from stpmex import Orden
+from stpmex.helpers import spei_to_stp_bank_code, stp_to_spei_bank_code
 from stpmex.types import Institucion
 import pytest
 import vcr
@@ -12,7 +15,6 @@ WRONG_REFERENCE = "12345678"
 def test_join_fields(initialize_stpmex):
     orden = Orden(
         institucionContraparte='846',
-        empresa='STP',
         fechaOperacion='20160810',
         folioOrigen='1q2w33e',
         claveRastreo='1q2w33e',
@@ -30,7 +32,7 @@ def test_join_fields(initialize_stpmex):
         medioEntrega='3',
         prioridad='0'
     )
-    joined = ('||846|STP|20160810|1q2w33e|1q2w33e||121.00|1|40||||40|'
+    joined = ('||846|TAMIZI|20160810|1q2w33e|1q2w33e||121.00|1|40||||40|'
               'eduardo|846180000300000004| ND|fernanda.cedillo@stpmex.com|||||'
               'pago prueba||||||123123||T||3|0|||').encode('utf-8')
 
@@ -104,3 +106,27 @@ def test_null_reference(initialize_stpmex, get_order):
     order.referenciaNumerica = None
     with pytest.raises(ValueError):
         order.registra()
+
+
+def test_invalid_spei_bank():
+    spei_bank = '001'
+    stp_code = spei_to_stp_bank_code(spei_bank)
+    assert stp_code is None
+
+
+def test_valid_spei_bank():
+    spei_bank = '002'
+    stp_code = spei_to_stp_bank_code(spei_bank)
+    assert stp_code == Institucion.BANAMEX
+
+
+def test_invalid_stp_bank():
+    stp_bank = 9999999
+    spei_code = stp_to_spei_bank_code(stp_bank)
+    assert spei_code is None
+
+
+def test_valid_stp_bank():
+    stp_bank = 40002
+    spei_code = stp_to_spei_bank_code(stp_bank)
+    assert spei_code == BankCode.BANAMEX.value

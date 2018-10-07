@@ -2,7 +2,8 @@ import setuptools
 
 requirements = [
     'zeep',
-    'pyopenssl'
+    'pyopenssl',
+    'clabe'
 ]
 
 with open('README.md', 'r') as f:
@@ -10,7 +11,7 @@ with open('README.md', 'r') as f:
 
 setuptools.setup(
     name='stpmex',
-    version='0.0.4',
+    version='0.0.6',
     author='Cuenca',
     author_email='dev@cuenca.io',
     description='Integration to stpmex.com',
