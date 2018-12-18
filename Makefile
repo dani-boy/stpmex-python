@@ -19,10 +19,13 @@ install-dev:
 		pip install -q -e .[dev]
 
 test: lint
-		pytest -v tests.py
+		python setup.py test
 
 lint:
-		pycodestyle stpmex setup.py
+		pycodestyle stpmex/ test_stpmex.py setup.py
 
+release: clean
+		python setup.py sdist bdist_wheel
+		twine upload dist/* --verbose
 
 .PHONY: all clean install-dev test lint

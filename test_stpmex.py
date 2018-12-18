@@ -61,6 +61,14 @@ def test_create_orden(initialize_stpmex, get_order):
 
 
 @vcr.use_cassette()
+def test_empty_concepto(initialize_stpmex, get_order):
+    orden = get_order
+    orden.conceptoPago = ''
+    with pytest.raises(ValueError):
+        orden.registra()
+
+
+@vcr.use_cassette()
 def test_bad_benefit(initialize_stpmex, get_order):
     order = get_order
     order.nombreBeneficiario = WRONG_BENEFIT

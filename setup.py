@@ -11,7 +11,7 @@ with open('README.md', 'r') as f:
 
 setuptools.setup(
     name='stpmex',
-    version='0.0.7',
+    version='0.0.8',
     author='Cuenca',
     author_email='dev@cuenca.io',
     description='Integration to stpmex.com',
@@ -20,6 +20,8 @@ setuptools.setup(
     url='https://github.com/cuenca-mx/stpmex-python',
     packages=setuptools.find_packages(),
     install_requires=requirements,
+    setup_requires=['pytest-runner'],
+    tests_require=['pytest', 'vcrpy'],
     extras_require={
         'dev': [
             'pytest>=3',
