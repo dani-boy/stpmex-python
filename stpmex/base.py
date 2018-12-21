@@ -48,6 +48,9 @@ class Resource:
     _defaults = {}
 
     def __init__(self, **kwargs):
+        for key, value in kwargs.items():
+            if isinstance(value, str):
+                kwargs[key] = value.strip()
         for default, value in self._defaults.items():
             if default not in kwargs:
                 if callable(value):

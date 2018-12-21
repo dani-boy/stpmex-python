@@ -24,7 +24,7 @@ def test_join_fields(initialize_stpmex):
         tipoCuentaBeneficiario='40',
         nombreBeneficiario='eduardo',
         cuentaBeneficiario='846180000300000004',
-        rfcCurpBeneficiario=' ND',
+        rfcCurpBeneficiario='ND',
         emailBeneficiario='fernanda.cedillo@stpmex.com',
         conceptoPago='pago prueba',
         referenciaNumerica='123123',
@@ -33,7 +33,7 @@ def test_join_fields(initialize_stpmex):
         prioridad='0'
     )
     joined = ('||846|TAMIZI|20160810|1q2w33e|1q2w33e||121.00|1|40||||40|'
-              'eduardo|846180000300000004| ND|fernanda.cedillo@stpmex.com|||||'
+              'eduardo|846180000300000004|ND|fernanda.cedillo@stpmex.com|||||'
               'pago prueba||||||123123||T||3|0|||').encode('utf-8')
 
     assert orden._joined_fields == joined
@@ -48,6 +48,23 @@ def get_order():
         institucionContraparte=Institucion.BANORTE.value,
         monto=1.2,
         nombreBeneficiario='Ricardo Sanchez')
+
+
+def test_create_order_leading_trailing_spaces(initialize_stpmex):
+    order = Orden(
+        conceptoPago='    Prueba    ',
+        institucionOperante=Institucion.STP.value,
+        cuentaBeneficiario='    072691004495711499    ',
+        institucionContraparte=Institucion.BANORTE.value,
+        monto=1.2,
+        nombreBeneficiario='    Ricardo Sanchez    '
+    )
+    assert order.conceptoPago == 'Prueba'
+    assert order.institucionOperante == Institucion.STP.value
+    assert order.cuentaBeneficiario == '072691004495711499'
+    assert order.institucionContraparte == Institucion.BANORTE.value
+    assert order.monto == 1.2
+    assert order.nombreBeneficiario == 'Ricardo Sanchez'
 
 
 @vcr.use_cassette()
