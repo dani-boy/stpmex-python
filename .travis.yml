@@ -29,9 +29,9 @@ jobs:
       script: echo "Uploading packages to PyPI"
       deploy:
         provider: pypi
-        user: JessicaShalomG
+        user: cuenca
         password:
-            secure: "W99WixhxbtzmZN9k220c5kpicILgAagmEiWdmp817608waNi3TVtgt7j1uF8iaSAZZWyUGD3ppsYH0YHkyFgXugFQ6dcQ7aUvHfuFVSzTFObCeYBzimpaYuB56o9PTc5UaaF7se1DemsUFeqoFS9yevtDyTruj+QqkN+3grdLpgqfAPzhKTZOGqHF0KC+xgraU9lGq+w1Zz/Rx7Y3G0td9kA06+CupMAfs8Q2bMxOiT7UMe4wizRKYsgDGdVWsnNjDdeVkf6LY1SiLHtg2qo/56eBFfbcFzkvSozmvwJoEwlF0q13IMoTSi2SIf38SJ2asUzGprLdbB4mYupGM1b0C67cG8Sfs6j0ugKTzqWyaejBtI/Poj8lPkNe795j2NqzIgjlVMipbIn9mbkqQIzCawpB5rCavcbCo5orNukKz70UlShUZSGNP+ji+BUDJ2/mRXMr4jt2kQRJAe/bYrd6tXjybv0XyJnp5Hvci8u4C6E14FnfvHJaebZgdk47nVXu1LAcVcFVUeFWOtIVgxE1oPBKsdnPqG5IbXOnwkVbndViE7YotSlzISFzTMKFtpcHzNpnIOh1D25XDbDetVm1dxoK1h5dN75dm2F/Kwy6n/zdRny5aIM/eON+cvBzYQXKZuxDdcWTmz/CIkBMx/NwGHDjxnXy0ExZnfvs3C6wVs="
+            secure: "CipKYamnKFQyhAuyic1zOMpraQf2/3MUcOhw6bJxwGkw9Dkek36XzAi2a/qgnwtZzfnhKc66yyU1p9g7JCURQ4CW3Kr7n3HC0czHt03MENtmZo8XfrQobeOm1MjmaGYEZYpx/U9Uo+zENajl23eq9kq1Da5jNw2rNJIvq/O5vRecCInq409USzAnDPl1SeKlufaysH6mf8m8pvVzS4zR0WHPmK5q0TsphB6rqc/8LuU7ALZN6O4LBHRI/q4Y2lk2AsaeIHYEM0Zyu5RaV66SaqV2tV0PDjPFKyM/UXP/TZdUrWp1KrKnLYOPoGgV4beFOEEoY3EDfQ0cmaNTV8CL9TOhM/r/9TQwz9RWTP0UzWt9UqifYF1BRk6aRsFrNOug4w4r5GvwVU/xnslIAv795y3Za1NNyCtNuvhftraZjFvzygBCcqhmj3zUmoDvaJiKR4vLhtZjH6ph/v4p+4SWf8oS74UwtQXXtiSBinXtKiwVKE7woupERgb0+2WTndoX8AZk39fz+SGFdaPYMpHoNRiSLw3DLaQeRoC5UVXs9mtd3/HlxVKj7YGhdUaSaZ5JtYUWizjd/m9DPlM3Alyr020gqO/q9F/hHjcWMELcMML0g0lkMjqtCv4esusDh9YJy+rmuiUpehStqY5KMOhxjP3S2HN4G6o1XHOc6xYWoWo="
 
         on:
           tags: true
