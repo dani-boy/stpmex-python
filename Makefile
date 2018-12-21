@@ -18,11 +18,11 @@ clean:
 install-dev:
 		pip install -q -e .[dev]
 
-test: lint
+test: clean install-dev lint
 		python setup.py test
 
 lint:
-		pycodestyle stpmex/ test_stpmex.py setup.py
+		pycodestyle stpmex/ tests/ setup.py
 
 release: clean
 		python setup.py sdist bdist_wheel
