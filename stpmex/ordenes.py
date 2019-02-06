@@ -62,7 +62,8 @@ VALIDATIONS = dict(
         maxLength=30
     ),
     conceptoPago=dict(
-        required=True
+        required=True,
+        maxLength=40
     ),
     referenciaNumerica=dict(
         required=True,
