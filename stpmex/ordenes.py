@@ -55,7 +55,10 @@ ORDEN_DEFAULTS = dict(
 VALIDATIONS = dict(
     nombreBeneficiario=dict(
         required=True,
-        maxLength=39
+        maxLength=40
+    ),
+    nombreOrdenante=dict(
+        maxLength=40
     ),
     claveRastreo=dict(
         required=True,
@@ -68,7 +71,45 @@ VALIDATIONS = dict(
     referenciaNumerica=dict(
         required=True,
         maxLength=7
-    )
+    ),
+    cuentaBeneficiario=dict(
+        required=True,
+        maxLength=20
+    ),
+    cuentaOrdenante=dict(
+        maxLength=20
+    ),
+    monto=dict(
+        required=True,
+        formatPrice=19.2
+    ),
+    folioOrigen=dict(
+        maxLength=50
+    ),
+    institucionContraparte=dict(
+        maxLength=5
+    ),
+    institucionOperante=dict(
+        maxLength=5
+    ),
+    rfcCurpBeneficiario=dict(
+        required=True,
+        maxLength=18
+    ),
+    rfcCurpOrdenante=dict(
+        maxLength=18
+    ),
+    tipoCuentaBeneficiario=dict(
+        required=True,
+        maxLength=2
+    ),
+    tipoCuentaOrdenante=dict(
+        maxLength=2
+    ),
+    tipoPago=dict(
+        required=True,
+        maxLength=2
+    ),
 )
 
 

@@ -7,8 +7,16 @@ import pytest
 import vcr
 
 
-WRONG_BENEFIT = "asdfghjklñasdfghjklñasdfghjklñasdfghjklñ"
+WRONG_NAME = "asdfghjklñasdfghjklñasdfghjklñasdfghjklñk"
 WRONG_REFERENCE = "12345678"
+WRONG_CONCEPTO = "gACeFtxObWskerkNBqzJrWvEvoeofMZmndSuxpKyo"
+WRONG_ACCOUNT = "123456789123456789123"
+WRONG_CLAVE = "1234567891234567891234567891234"
+WRONG_FOLIO = "aHleRDMCqwLQEXfsqFnkdbEbyCZkfqpIAAMrFawVwhnCHVUXAJP"
+WRONG_INSTITUCION = 123456
+WRONG_MONTO_ONE = 12345678912345678912
+WRONG_MONTO_TWO = 234.3443
+WRONG_RFC = "GAvmqfKjSvCqvOVIQRJ"
 
 
 @vcr.use_cassette(cassette_library_dir='tests/cassettes')
@@ -78,6 +86,46 @@ def test_create_orden(initialize_stpmex, get_order):
 
 
 @vcr.use_cassette(cassette_library_dir='tests/cassettes')
+def test_empty_monto(initialize_stpmex, get_order):
+    orden = get_order
+    orden.monto = ''
+    with pytest.raises(ValueError):
+        orden.registra()
+
+
+@vcr.use_cassette(cassette_library_dir='tests/cassettes')
+def test_null_monto(initialize_stpmex, get_order):
+    order = get_order
+    order.monto = None
+    with pytest.raises(ValueError):
+        order.registra()
+
+
+@vcr.use_cassette(cassette_library_dir='tests/cassettes')
+def test_is_numeric_monto(initialize_stpmex, get_order):
+    orden = get_order
+    orden.monto = "dh238d7gd"
+    with pytest.raises(ValueError):
+        orden.registra()
+
+
+@vcr.use_cassette(cassette_library_dir='tests/cassettes')
+def test_max_length_monto_one(initialize_stpmex, get_order):
+    orden = get_order
+    orden.monto = WRONG_MONTO_ONE
+    with pytest.raises(ValueError):
+        orden.registra()
+
+
+@vcr.use_cassette(cassette_library_dir='tests/cassettes')
+def test_max_length_monto_two(initialize_stpmex, get_order):
+    orden = get_order
+    orden.monto = WRONG_MONTO_TWO
+    with pytest.raises(ValueError):
+        orden.registra()
+
+
+@vcr.use_cassette(cassette_library_dir='tests/cassettes')
 def test_empty_concepto(initialize_stpmex, get_order):
     orden = get_order
     orden.conceptoPago = ''
@@ -86,25 +134,48 @@ def test_empty_concepto(initialize_stpmex, get_order):
 
 
 @vcr.use_cassette(cassette_library_dir='tests/cassettes')
-def test_max_length_concepto(initialize_stpmex, get_order):
-    orden = get_order
-    orden.conceptoPago = 'gACeFtxObWskerkNBqzJrWvEvoeofMZmndSuxpKyo'
-    with pytest.raises(ValueError):
-        orden.registra()
-
-
-@vcr.use_cassette(cassette_library_dir='tests/cassettes')
-def test_bad_benefit(initialize_stpmex, get_order):
+def test_null_concepto(initialize_stpmex, get_order):
     order = get_order
-    order.nombreBeneficiario = WRONG_BENEFIT
+    order.conceptoPago = None
     with pytest.raises(ValueError):
         order.registra()
 
 
 @vcr.use_cassette(cassette_library_dir='tests/cassettes')
-def test_null_benefit(initialize_stpmex, get_order):
+def test_max_length_concepto(initialize_stpmex, get_order):
+    orden = get_order
+    orden.conceptoPago = WRONG_CONCEPTO
+    with pytest.raises(ValueError):
+        orden.registra()
+
+
+@vcr.use_cassette(cassette_library_dir='tests/cassettes')
+def test_bad_N_benefit(initialize_stpmex, get_order):
+    order = get_order
+    order.nombreBeneficiario = WRONG_NAME
+    with pytest.raises(ValueError):
+        order.registra()
+
+
+@vcr.use_cassette(cassette_library_dir='tests/cassettes')
+def test_null_N_benefit(initialize_stpmex, get_order):
     order = get_order
     order.nombreBeneficiario = None
+    with pytest.raises(ValueError):
+        order.registra()
+
+
+def test_bad_N_ordenante(initialize_stpmex, get_order):
+    orden = get_order
+    orden.nombreOrdenante = WRONG_NAME
+    with pytest.raises(ValueError):
+        orden.registra()
+
+
+@vcr.use_cassette(cassette_library_dir='tests/cassettes')
+def test_emply_clave(initialize_stpmex, get_order):
+    order = get_order
+    order.claveRastreo = ''
     with pytest.raises(ValueError):
         order.registra()
 
@@ -118,9 +189,9 @@ def test_null_clave(initialize_stpmex, get_order):
 
 
 @vcr.use_cassette(cassette_library_dir='tests/cassettes')
-def test_null_concepto(initialize_stpmex, get_order):
+def test_max_length_clave(initialize_stpmex, get_order):
     order = get_order
-    order.conceptoPago = None
+    order.claveRastreo = WRONG_CLAVE
     with pytest.raises(ValueError):
         order.registra()
 
@@ -139,6 +210,102 @@ def test_null_reference(initialize_stpmex, get_order):
     order.referenciaNumerica = None
     with pytest.raises(ValueError):
         order.registra()
+
+
+@vcr.use_cassette(cassette_library_dir='tests/cassettes')
+def test_empty_C_beneficiario(initialize_stpmex, get_order):
+    orden = get_order
+    orden.cuentaBeneficiario = ''
+    with pytest.raises(ValueError):
+        orden.registra()
+
+
+@vcr.use_cassette(cassette_library_dir='tests/cassettes')
+def test_null_C_beneficiario(initialize_stpmex, get_order):
+    order = get_order
+    order.cuentaBeneficiario = None
+    with pytest.raises(ValueError):
+        order.registra()
+
+
+@vcr.use_cassette(cassette_library_dir='tests/cassettes')
+def test_max_length_beneficiario(initialize_stpmex, get_order):
+    orden = get_order
+    orden.cuentaBeneficiario = WRONG_ACCOUNT
+    with pytest.raises(ValueError):
+        orden.registra()
+
+
+@vcr.use_cassette(cassette_library_dir='tests/cassettes')
+def test_max_length_ordenante(initialize_stpmex, get_order):
+    orden = get_order
+    orden.cuentaOrdenante = WRONG_ACCOUNT
+    with pytest.raises(ValueError):
+        orden.registra()
+
+
+@vcr.use_cassette(cassette_library_dir='tests/cassettes')
+def test_max_length_folio(initialize_stpmex, get_order):
+    orden = get_order
+    orden.folioOrigen = WRONG_FOLIO
+    with pytest.raises(ValueError):
+        orden.registra()
+
+
+@vcr.use_cassette(cassette_library_dir='tests/cassettes')
+def test_max_length_contraparte(initialize_stpmex, get_order):
+    orden = get_order
+    orden.institucionContraparte = WRONG_INSTITUCION
+    with pytest.raises(ValueError):
+        orden.registra()
+
+
+@vcr.use_cassette(cassette_library_dir='tests/cassettes')
+def test_max_length_operante(initialize_stpmex, get_order):
+    orden = get_order
+    orden.institucionOperante = WRONG_INSTITUCION
+    with pytest.raises(ValueError):
+        orden.registra()
+
+
+@vcr.use_cassette(cassette_library_dir='tests/cassettes')
+def test_max_length_rfcBeneficiario(initialize_stpmex, get_order):
+    orden = get_order
+    orden.rfcCurpBeneficiario = WRONG_RFC
+    with pytest.raises(ValueError):
+        orden.registra()
+
+
+@vcr.use_cassette(cassette_library_dir='tests/cassettes')
+def test_max_length_rfcOrdenante(initialize_stpmex, get_order):
+    orden = get_order
+    orden.rfcCurpOrdenante = WRONG_RFC
+    with pytest.raises(ValueError):
+        orden.registra()
+
+
+@vcr.use_cassette(cassette_library_dir='tests/cassettes')
+def test_max_length_tipoBeneficiario(initialize_stpmex, get_order):
+    orden = get_order
+    orden.tipoCuentaBeneficiario = 322
+    with pytest.raises(ValueError):
+        orden.registra()
+
+
+@vcr.use_cassette(cassette_library_dir='tests/cassettes')
+def test_max_length_tipoOrdenante(initialize_stpmex, get_order):
+    orden = get_order
+    orden.tipoCuentaOrdenante = 345
+    with pytest.raises(ValueError):
+        orden.registra()
+
+
+@vcr.use_cassette(cassette_library_dir='tests/cassettes')
+def test_max_length_tipoPago(initialize_stpmex, get_order):
+    orden = get_order
+    orden.tipoPago = 345
+    with pytest.raises(ValueError):
+        orden.registra()
 
 
 def test_invalid_spei_bank():
@@ -163,10 +330,3 @@ def test_valid_stp_bank():
     stp_bank = 40002
     spei_code = stp_to_spei_bank_code(stp_bank)
     assert spei_code == BankCode.BANAMEX.value
-
-
-def test_max_length(initialize_stpmex, get_order):
-    order = get_order
-    order.claveRastreo = '1234567891234567891234567891234'
-    with pytest.raises(ValueError):
-        order.registra()
