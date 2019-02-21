@@ -1,16 +1,16 @@
 import pytest
 import stpmex
-from stpmex.types import Institucion
 from stpmex import Orden
+from clabe import BANKS
 
 
 @pytest.fixture
 def orden():
     return Orden(
         conceptoPago='Prueba',
-        institucionOperante=Institucion.STP.value,
+        institucionOperante='90646',
         cuentaBeneficiario='072691004495711499',
-        institucionContraparte=Institucion.BANORTE.value,
+        institucionContraparte=BANKS['072'],
         monto=1.2,
         nombreBeneficiario='Ricardo Sanchez')
 
