@@ -34,22 +34,19 @@ def _validate(field, field_value, validation, validation_value):
     """
     if validation == 'required' and validation_value and not field_value:
         return 'Field {} is required'.format(field)
-    if validation == 'maxLength' and validation_value and \
-       field_value and validation_value < len(str(field_value)):
+    if (validation == 'maxLength' and validation_value and
+       field_value and validation_value < len(str(field_value))):
         return 'Length of field {} must be lower than {}'\
             .format(field, len(str(field_value)))
     if validation == 'formatPrice' and validation_value and field_value:
         integer = int(str(validation_value).split(".")[0])
+        decimal = 2
         if len(str(validation_value).split(".")) != 1:
             decimal = int(str(validation_value).split(".")[1])
-        else:
-            decimal = 2
         try:
             split_value = str(float(field_value)).split(".")
-            if len(split_value[0]) > integer:
-                return 'Length of field {} must be lower than {}.{}'\
-                    .format(field, integer, decimal)
-            elif len(split_value) != 1 and len(split_value[1]) > decimal:
+            if (len(split_value[0]) > integer or
+               len(split_value) != 1 and len(split_value[1]) > decimal):
                 return 'Length of field {} must be lower than {}.{}'\
                     .format(field, integer, decimal)
         except ValueError:
