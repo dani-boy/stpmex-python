@@ -24,6 +24,10 @@ test: clean install-dev lint
 lint:
 		pycodestyle stpmex/ tests/ setup.py
 
+polish:
+		black -S -l 79 **/*.py
+		isort -rc --atomic **/*.py
+
 release: clean
 		python setup.py sdist bdist_wheel
 		twine upload dist/* --verbose

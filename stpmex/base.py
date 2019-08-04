@@ -1,4 +1,5 @@
 from base64 import b64encode
+
 from OpenSSL import crypto
 
 STP_EMPRESA = None
@@ -34,10 +35,15 @@ def _validate(field, field_value, validation, validation_value):
     """
     if validation == 'required' and validation_value and not field_value:
         return 'Field {} is required'.format(field)
-    if (validation == 'maxLength' and validation_value and
-       field_value and validation_value < len(str(field_value))):
-        return 'Length of field {} must be lower than {}'\
-            .format(field, len(str(field_value)))
+    if (
+        validation == 'maxLength'
+        and validation_value
+        and field_value
+        and validation_value < len(str(field_value))
+    ):
+        return 'Length of field {} must be lower than {}'.format(
+            field, len(str(field_value))
+        )
     if validation == 'formatPrice' and validation_value and field_value:
         integer = int(str(validation_value).split(".")[0])
         decimal = 2
@@ -45,10 +51,14 @@ def _validate(field, field_value, validation, validation_value):
             decimal = int(str(validation_value).split(".")[1])
         try:
             split_value = str(float(field_value)).split(".")
-            if (len(split_value[0]) > integer or
-               len(split_value) != 1 and len(split_value[1]) > decimal):
-                return 'Length of field {} must be lower than {}.{}'\
-                    .format(field, integer, decimal)
+            if (
+                len(split_value[0]) > integer
+                or len(split_value) != 1
+                and len(split_value[1]) > decimal
+            ):
+                return 'Length of field {} must be lower than {}.{}'.format(
+                    field, integer, decimal
+                )
         except ValueError:
             return "Field is not a valid number"
     return None
@@ -82,8 +92,10 @@ class Resource:
         return {r: self.__getattr__(r) for r in self.__fieldnames__}
 
     def __eq__(self, other):
-        return all(getattr(self, name) ==
-                   getattr(other, name) for name in self.__fieldnames__)
+        return all(
+            getattr(self, name) == getattr(other, name)
+            for name in self.__fieldnames__
+        )
 
     def __getattr__(self, item):
         if item.startswith('_'):
@@ -127,8 +139,9 @@ class Resource:
         """
         # Validaciones que aplican en este campo
         vals = self.__validations__[field]
-        return [_validate(field, getattr(self, field), r, vals[r])
-                for r in vals]
+        return [
+            _validate(field, getattr(self, field), r, vals[r]) for r in vals
+        ]
 
     def _is_valid(self):
         """
@@ -137,11 +150,19 @@ class Resource:
         :return: None si no hay errores, de otra forma lanza una
             excepción con la lista de errores
         """
-        errors = list(filter((lambda x: x is not None),
-                             [error for errors in
-                              map((lambda r: self._is_valid_field(r)),
-                                  self.__validations__)
-                              for error in errors]))
+        errors = list(
+            filter(
+                (lambda x: x is not None),
+                [
+                    error
+                    for errors in map(
+                        (lambda r: self._is_valid_field(r)),
+                        self.__validations__,
+                    )
+                    for error in errors
+                ],
+            )
+        )
         if len(errors) > 0:
             raise ValueError(",".join(errors))
         return None

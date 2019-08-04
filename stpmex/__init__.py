@@ -1,20 +1,30 @@
 """
 Configuraciones iniciales para utilizar el cliente posteriormente
 """
-from zeep import Client
-from zeep.transports import Transport
 from OpenSSL import crypto
 from requests import Session
-from .ordenes import Orden
+from zeep import Client
+from zeep.transports import Transport
+
 from .base import STP_EMPRESA, STP_PREFIJO, STP_PRIVKEY, STP_PRIVKEY_PASSPHRASE
+from .ordenes import Orden
 
-DEFAULT_WSDL = ('https://demo.stpmex.com:7024/speidemo/webservices/SpeiActual'
-                'izaServices?wsdl')
+DEFAULT_WSDL = (
+    'https://demo.stpmex.com:7024/speidemo/webservices/SpeiActual'
+    'izaServices?wsdl'
+)
 
 
-def configure(empresa: str, priv_key: str, priv_key_passphrase: str,
-              prefijo: int, wsdl_path: str = DEFAULT_WSDL, proxy: str = None,
-              proxy_user: str = None, proxy_password: str = None):
+def configure(
+    empresa: str,
+    priv_key: str,
+    priv_key_passphrase: str,
+    prefijo: int,
+    wsdl_path: str = DEFAULT_WSDL,
+    proxy: str = None,
+    proxy_user: str = None,
+    proxy_password: str = None,
+):
     """
     Configura las credenciales y parámetros necesarios para poder hacer
     peticiones a STP
@@ -30,18 +40,18 @@ def configure(empresa: str, priv_key: str, priv_key_passphrase: str,
     """
     base.STP_EMPRESA = empresa
     base.STP_PRIVKEY = crypto.load_privatekey(
-        crypto.FILETYPE_PEM, priv_key, priv_key_passphrase. encode('ascii'))
+        crypto.FILETYPE_PEM, priv_key, priv_key_passphrase.encode('ascii')
+    )
     base.STP_PRIVKEY_PASSPHRASE = priv_key_passphrase
     base.STP_PREFIJO = prefijo
     base.WSDL_PATH = wsdl_path
 
     base.ACTUALIZA_CLIENT = Client(wsdl_path)
     if proxy is not None:
+        proxies = {
+            'https': f"https://{proxy_user}:{proxy_password}@{proxy}",
+            'http': f"http://{proxy_user}:{proxy_password}@{proxy}",
+        }
         base.ACTUALIZA_CLIENT = Client(
-            wsdl_path,
-            transport=Transport(session=Session(proxies={
-                    'https': f"https://{proxy_user}:{proxy_password}@{proxy}",
-                    'http':  f"http://{proxy_user}:{proxy_password}@{proxy}"
-                })
-            )
+            wsdl_path, transport=Transport(session=Session(proxies=proxies))
         )

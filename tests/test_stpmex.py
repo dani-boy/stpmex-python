@@ -1,7 +1,7 @@
-from clabe import BANKS
 import pytest
-from stpmex import Orden
+from clabe import BANKS
 
+from stpmex import Orden
 
 WRONG_NAME = "asdfghjklñasdfghjklñasdfghjklñasdfghjklñk"
 WRONG_REFERENCE = "12345678"
@@ -34,11 +34,13 @@ def test_join_fields(initialize_stpmex):
         referenciaNumerica='123123',
         topologia='T',
         medioEntrega='3',
-        prioridad='0'
+        prioridad='0',
     )
-    joined = ('||684|TAMIZI|20160810|1q2w33e|1q2w33e||121.00|1|40||||40|'
-              'eduardo|684180000300000004|ND|fernanda.cedillo@stpmex.com|||||'
-              'pago prueba||||||123123||T||3|0|||').encode('utf-8')
+    joined = (
+        '||684|TAMIZI|20160810|1q2w33e|1q2w33e||121.00|1|40||||40|'
+        'eduardo|684180000300000004|ND|fernanda.cedillo@stpmex.com|||||'
+        'pago prueba||||||123123||T||3|0|||'
+    ).encode('utf-8')
 
     assert orden._joined_fields == joined
 

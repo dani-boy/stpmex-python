@@ -3,7 +3,8 @@ import setuptools
 requirements = [
     'zeep>=3.1.0,<3.2.0',
     'pyopenssl>=18.0.0,<18.1.0',
-    'clabe>=0.2.1,<0.3.0'
+    'clabe>=0.2.1,<0.3.0',
+    'pydantic'
 ]
 
 with open('README.md', 'r') as f:
@@ -23,7 +24,7 @@ setuptools.setup(
     setup_requires=['pytest-runner'],
     tests_require=[
         'pytest>=4.2.1,<4.3.0',
-        'vcrpy==2.0.1'
+        'vcrpy==2.0.1',
     ],
     extras_require={
         'dev': [
@@ -33,7 +34,9 @@ setuptools.setup(
             'pycodestyle',
             'pytest',
             'vcrpy',
-            'pytest-vcr>=1.0.1'
+            'pytest-vcr>=1.0.1',
+            'black',
+            'isort'
         ]
     },
     classifiers=[
