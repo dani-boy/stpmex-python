@@ -65,6 +65,7 @@ def _validate(field, field_value, validation, validation_value):
 
 
 class Resource:
+    _soap_client = None
     __fieldnames__ = None
     __object__ = None
     __type__ = None
@@ -168,5 +169,5 @@ class Resource:
         return None
 
     def _invoke_method(self, method):
-        res = ACTUALIZA_CLIENT.service[method](self.__object__)
+        res = self._soap_client.service[method](self.__object__)
         return res
