@@ -21,7 +21,7 @@ class Client:
     ):
         self.empresa = empresa
         try:
-            self.priv_key = crypto.load_privatekey(
+            self.__unencrypted_priv_key = crypto.load_privatekey(
                 crypto.FILETYPE_PEM, priv_key,
                 priv_key_passphrase.encode('ascii')
             )
