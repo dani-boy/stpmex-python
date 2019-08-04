@@ -1,7 +1,6 @@
 import pytest
 
-
-from stpmex.client import Client, DEFAULT_WSDL
+from stpmex.client import DEFAULT_WSDL, Client
 from stpmex.exc import InvalidPassphrase
 
 PKEY = (
