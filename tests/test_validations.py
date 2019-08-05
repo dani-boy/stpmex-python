@@ -9,20 +9,11 @@ ORDEN_KWARGS = dict(
     claveRastreo='CR1564969083',
     monto=1.2,
     tipoPago=1,
-    nombreOrdenante=None,
-    cuentaOrdenante=None,
-    tipoCuentaOrdenante=None,
-    rfcCurpOrdenante=None,
     tipoCuentaBeneficiario=40,
     nombreBeneficiario='Ricardo Sanchez',
     cuentaBeneficiario='072691004495711499',
-    rfcCurpBeneficiario='ND',
     conceptoPago='Prueba',
     referenciaNumerica=5273144,
-    topologia='T',
-    medioEntrega=3,
-    prioridad=1,
-    iva=None,
 )
 
 
@@ -114,3 +105,12 @@ def test_replace_unicode():
     )
     assert orden.nombreBeneficiario == 'Ricardo Sanchez'
     assert orden.conceptoPago == 'esta bien, guey'
+
+
+def test_defaults():
+    orden_kwargs = ORDEN_KWARGS.copy()
+    orden_kwargs.pop('claveRastreo')
+    orden_kwargs.pop('referenciaNumerica')
+    orden = create_orden()
+    assert orden.claveRastreo
+    assert orden.referenciaNumerica
