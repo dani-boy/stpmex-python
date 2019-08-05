@@ -1,31 +1,37 @@
 SHELL := bash
 PATH := ./venv/bin:${PATH}
 PYTHON=python3.7
+PROJECT=stpmex
 
 
 all: test
 
 venv:
-		$(PYTHON) -m venv --prompt stpmex venv
-		source venv/bin/activate
+		$(PYTHON) -m venv --prompt $(PROJECT) venv
 		pip install -qU pip
 
-clean:
-		find . -name '__pycache__' -exec rm -r "{}" +
-		find . -name '*.pyc' -delete
-		find . -name '*~' -delete
+install-test:
+		pip install -q .[test]
 
-install-dev:
-		pip install -q -e .[dev]
-
-test: clean install-dev lint
+test: clean install-test lint
 		python setup.py test
 
+polish:
+		black -S -l 79 **/*.py
+		isort -rc --atomic **/*.py
+
 lint:
-		pycodestyle stpmex/ tests/ setup.py
+		pycodestyle setup.py $(PROJECT)/ tests/
+
+clean:
+		find . -name '*.pyc' -exec rm -f {} +
+		find . -name '*.pyo' -exec rm -f {} +
+		find . -name '*~' -exec rm -f {} +
+		rm -rf build dist $(PROJECT).egg-info
 
 release: clean
 		python setup.py sdist bdist_wheel
-		twine upload dist/* --verbose
+		twine upload dist/*
 
-.PHONY: all clean install-dev test lint
+
+.PHONY: all install-test release test clean-pyc

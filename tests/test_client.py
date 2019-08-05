@@ -1,6 +1,8 @@
 import pytest
+from requests import HTTPError
 
-from stpmex import Client, Orden
+from stpmex.client import Client
+from stpmex.exc import InvalidPassphrase
 
 PKEY = (
     'Bag Attributes\n    friendlyName: prueba\n    localKeyID:'
@@ -32,43 +34,34 @@ PKEY = (
 )
 
 
-@pytest.fixture
 @pytest.mark.vcr
-def client():
+def test_client():
     pkey_passphrase = '12345678'
     empresa = 'TAMIZI'
-    yield Client(
+    client = Client(
         empresa=empresa,
         priv_key=PKEY,
         priv_key_passphrase=pkey_passphrase,
         demo=True,
     )
+    assert client.soap_client.get_type('ns0:ordenPagoWS')
 
 
-@pytest.fixture
-def orden():
-    yield Orden(
-        institucionContraparte='40072',
-        claveRastreo='CR1564969083',
-        monto=1.2,
-        tipoPago=1,
-        nombreOrdenante=None,
-        cuentaOrdenante=None,
-        tipoCuentaOrdenante=None,
-        rfcCurpOrdenante=None,
-        tipoCuentaBeneficiario=40,
-        nombreBeneficiario='Ricardo Sanchez',
-        cuentaBeneficiario='072691004495711499',
-        rfcCurpBeneficiario='ND',
-        conceptoPago='Prueba',
-        referenciaNumerica=5273144,
-        topologia='T',
-        medioEntrega=3,
-        prioridad=1,
-        iva=None,
-    )
+@pytest.mark.vcr
+def test_forbidden_without_vpn():
+    pkey_passphrase = '12345678'
+    empresa = 'TAMIZI'
+    with pytest.raises(HTTPError) as exc_info:
+        Client(
+            empresa=empresa, priv_key=PKEY, priv_key_passphrase=pkey_passphrase
+        )
+    assert exc_info.value.response.status_code == 403
 
 
-@pytest.fixture
-def soap_orden(client, orden):
-    yield client.soap_orden(orden)
+def test_incorrect_passphrase():
+    pkey_passphrase = 'incorrect'
+    empresa = 'TAMIZI'
+    with pytest.raises(InvalidPassphrase):
+        Client(
+            empresa=empresa, priv_key=PKEY, priv_key_passphrase=pkey_passphrase
+        )

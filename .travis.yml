@@ -3,11 +3,16 @@ notifications:
 
 language: python
 
-script: make test
+install: make install-test
+
+cache: pip
+
+script:
+  - make lint
+  - python setup.py test
 
 jobs:
   include:
-
     - stage: test
       python: 3.6
     - stage: test
@@ -18,10 +23,13 @@ jobs:
       python: 3.7
       dist: xenial
       sudo: true
-      install: pip install coveralls
+      install:
+        - make install-test
+        - pip install coveralls
       script:
-      - coverage run --source=stpmex setup.py test
-      - coveralls
+        - export PYTHONPATH=`pwd`
+        - pytest --vcr-record=none
+        - coveralls
     - stage: PyPI Upload
       python: 3.7
       dist: xenial
