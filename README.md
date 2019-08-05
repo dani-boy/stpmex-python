@@ -13,13 +13,13 @@ Python v3.6 o superior.
 
 ## Instalación
 
-```bash
+```
 pip install stpmex
 ```
 
 ## Test
 
-```bash
+```
 make venv
 source venv/bin/activate
 make test
