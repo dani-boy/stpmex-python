@@ -58,7 +58,7 @@ class Orden:
             raise ValueError('monto must be a float')
 
     @validator('cuentaBeneficiario', 'cuentaOrdenante')
-    def __validate_cuenta(cls, v):
+    def _validate_cuenta(cls, v):
         if len(v) == 18:
             if not clabe.validate_clabe(v):
                 raise ValueError('cuenta no es una válida CLABE')
@@ -67,13 +67,13 @@ class Orden:
         return v
 
     @validator('institucionContraparte', 'institucionOperante')
-    def __validate_institucion(cls, v):
+    def _validate_institucion(cls, v):
         if v not in clabe.BANKS.values():
             raise ValueError(f'{v} no se corresponde a un banco')
         return v
 
     @validator('tipoCuentaBeneficiario')
-    def __validate_tipoCuenta(cls, v, values, **kwargs):
+    def _validate_tipoCuenta(cls, v, values, **kwargs):
         try:
             cuenta = values['cuentaBeneficiario']
         except KeyError:  # there's a validation error elsewhere
@@ -89,6 +89,6 @@ class Orden:
         return v
 
     @validator('nombreBeneficiario', 'nombreOrdenante', 'conceptoPago')
-    def __unicode_to_ascii(cls, v):
+    def _unicode_to_ascii(cls, v):
         v = unicodedata.normalize('NFKD', v).encode('ascii', 'ignore')
         return v.decode('ascii')
