@@ -45,7 +45,7 @@ def test_strip_spaces():
     assert orden.conceptoPago == 'hello'
 
 
-def test_into_monto():
+def test_nonfloat_monto():
     with pytest.raises(ValueError):
         create_orden(monto=5)
 
