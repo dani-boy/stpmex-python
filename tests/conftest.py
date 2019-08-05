@@ -1,7 +1,6 @@
 import pytest
 
-from stpmex.client import Client
-from stpmex.orden import Orden
+from stpmex import Client, Orden
 
 PKEY = (
     'Bag Attributes\n    friendlyName: prueba\n    localKeyID:'
