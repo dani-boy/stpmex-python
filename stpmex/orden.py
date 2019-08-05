@@ -73,8 +73,8 @@ class Orden:
     def __validate_tipoCuenta(cls, v, values, **kwargs):
         try:
             cuenta = values['cuentaBeneficiario']
-        except KeyError:
-            return v  # there's a validation error elsewhere
+        except KeyError:  # there's a validation error elsewhere
+            return v
         if not any(
             [
                 len(cuenta) == 10 and v == TipoCuenta.phone_number.value,
