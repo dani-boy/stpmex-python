@@ -4,7 +4,7 @@ from OpenSSL import crypto
 from zeep import Client as SoapClient
 
 from .auth import compute_signature, join_fields
-from .exc import InvalidPassphrase
+from .exc import InvalidPassphrase, StpmexException
 from .orden import Orden
 
 DEMO_BASE_URL = 'demo.stpmex.com:7024/speidemo'
@@ -41,8 +41,12 @@ class Client:
         soap_orden.empresa = self.empresa
         return soap_orden
 
-    def registrar_orden(self, orden: Orden) -> dict:
+    def registrar_orden(
+            self, orden: Orden) -> 'zeep.objects.speiServiceResponse':
         soap_orden = self.soap_orden(orden)
         joined_fields = join_fields(soap_orden)
         soap_orden.firma = compute_signature(self._pkey, joined_fields)
-        return self.soap_client.service['registraOrden'](soap_orden)
+        resp = self.soap_client.service['registraOrden'](soap_orden)
+        if 'descripcionError' in resp and resp.descripcionError:
+            raise StpmexException(**resp.__values__)
+        return resp

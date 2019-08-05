@@ -2,7 +2,7 @@ import pytest
 from requests import HTTPError
 
 from stpmex.client import Client
-from stpmex.exc import InvalidPassphrase
+from stpmex.exc import InvalidPassphrase, StpmexException
 
 PKEY = (
     'Bag Attributes\n    friendlyName: prueba\n    localKeyID:'
@@ -65,3 +65,14 @@ def test_incorrect_passphrase():
         Client(
             empresa=empresa, priv_key=PKEY, priv_key_passphrase=pkey_passphrase
         )
+
+
+@pytest.mark.vcr
+def test_response_error(client, orden):
+    orden.medioEntrega = 9999999
+    with pytest.raises(StpmexException) as exc_info:
+        client.registrar_orden(orden)
+    exc = exc_info.value
+    assert exc.descripcionError
+    assert repr(exc)
+    assert str(exc)

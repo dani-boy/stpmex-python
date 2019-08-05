@@ -23,7 +23,7 @@ with open('README.md', 'r') as f:
 
 setuptools.setup(
     name='stpmex',
-    version='2.0.0',
+    version='2.0.1',
     author='Cuenca',
     author_email='dev@cuenca.com',
     description='Integration to stpmex.com',
