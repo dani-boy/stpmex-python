@@ -96,3 +96,13 @@ def test_invalid_bank():
     error = errors[0]
     assert error['loc'] == ('institucionContraparte',)
     assert error['type'] == 'value_error'
+
+
+def test_tipo_cuenta():
+    with pytest.raises(ValidationError) as exc_info:
+        create_orden(tipoCuentaBeneficiario=3)
+    errors = exc_info.value.errors()
+    assert len(errors) == 1
+    error = errors[0]
+    assert error['loc'] == ('tipoCuentaBeneficiario',)
+    assert error['type'] == 'value_error'

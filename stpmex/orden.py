@@ -7,7 +7,7 @@ import clabe
 from pydantic import PositiveFloat, constr, validator
 from pydantic.dataclasses import dataclass
 
-from .types import Prioridad
+from .types import Prioridad, TipoCuenta
 
 STP_BANK_CODE = '90646'
 
@@ -31,6 +31,7 @@ class Orden:
 
     nombreOrdenante: Optional[truncated_str(39)] = None
     cuentaOrdenante: Optional[str] = None
+    institucionOperante: digits(5, 5) = STP_BANK_CODE
     tipoCuentaOrdenante: Optional[int] = None
 
     claveRastreo: truncated_str(29) = field(
@@ -46,24 +47,39 @@ class Orden:
     tipoPago: int = 1
     topologia: str = 'T'
     iva: Optional[float] = None
-    institucionOperante: str = STP_BANK_CODE
 
     def __post_init__(self):
         # Test before Pydantic coerces it to a float
         if not isinstance(self.monto, float):
             raise ValueError('monto must be a float')
 
-    @validator('cuentaBeneficiario')
-    def __validate_cuentaBeneficiario(cls, v):
+    @validator('cuentaBeneficiario', 'cuentaOrdenante')
+    def __validate_cuenta(cls, v):
         if len(v) == 18:
             if not clabe.validate_clabe(v):
-                raise ValueError('cuentaBeneficiario no es una válida CLABE')
+                raise ValueError('cuenta no es una válida CLABE')
         elif not len(v) in {10, 15, 16}:
-            raise ValueError('cuentaBeneficiario no es válida')
+            raise ValueError('cuenta no es válida')
         return v
 
-    @validator('institucionContraparte')
-    def __validate_institucionContraparte(cls, v):
+    @validator('institucionContraparte', 'institucionOperante')
+    def __validate_institucion(cls, v):
         if v not in clabe.BANKS.values():
             raise ValueError(f'{v} no se corresponde a un banco')
+        return v
+
+    @validator('tipoCuentaBeneficiario')
+    def __validate_tipoCuenta(cls, v, values, **kwargs):
+        try:
+            cuenta = values['cuentaBeneficiario']
+        except KeyError:
+            return v  # there's a validation error elsewhere
+        if not any(
+            [
+                len(cuenta) == 10 and v == TipoCuenta.phone_number.value,
+                len(cuenta) in {15, 16} and v == TipoCuenta.card.value,
+                len(cuenta) == 18 and v == TipoCuenta.clabe.value,
+            ]
+        ):
+            raise ValueError('tipoCuenta no es válido')
         return v
