@@ -23,15 +23,16 @@ def digits(min_length: Optional[int] = None, max_length: Optional[int] = None):
 
 @dataclass
 class Orden:
+    monto: PositiveFloat
+    conceptoPago: truncated_str(39)
+
     nombreBeneficiario: truncated_str(39)
     cuentaBeneficiario: digits(10, 19)
     institucionContraparte: digits(5, 5)
     tipoCuentaBeneficiario: int
-    monto: PositiveFloat
-    conceptoPago: truncated_str(39)
 
     nombreOrdenante: Optional[truncated_str(39)] = None
-    cuentaOrdenante: Optional[str] = None
+    cuentaOrdenante: Optional[digits(10, 19)] = None
     institucionOperante: digits(5, 5) = STP_BANK_CODE
     tipoCuentaOrdenante: Optional[int] = None
 
