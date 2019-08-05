@@ -55,14 +55,10 @@ class Orden:
 
     @validator('cuentaBeneficiario')
     def __validate_cuentaBeneficiario(cls, v):
-        if len(v) == 10:
-            pass  # phone number
-        elif len(v) in {15, 16}:
-            pass  # card
-        elif len(v) == 18:
+        if len(v) == 18:
             if not clabe.validate_clabe(v):
                 raise ValueError('cuentaBeneficiario no es una válida CLABE')
-        else:
+        elif not len(v) in {10, 15, 16}:
             raise ValueError('cuentaBeneficiario no es válida')
         return v
 

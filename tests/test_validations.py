@@ -68,6 +68,16 @@ def test_invalid_clabe():
     assert error['type'] == 'value_error'
 
 
+def test_wrong_length_cuentaBeneficiario():
+    with pytest.raises(ValidationError) as exc_info:
+        create_orden(cuentaBeneficiario='1' * 14)
+    errors = exc_info.value.errors()
+    assert len(errors) == 1
+    error = errors[0]
+    assert error['loc'] == ('cuentaBeneficiario',)
+    assert error['type'] == 'value_error'
+
+
 def test_digits():
     with pytest.raises(ValidationError) as exc_info:
         create_orden(referenciaNumerica='9üey')
