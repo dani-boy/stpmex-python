@@ -51,6 +51,6 @@ def join_fields(orden) -> bytes:
     return ('||' + '|'.join(joined_fields) + '||').encode('utf-8')
 
 
-def compute_signature(pkey: crypto.PKey, text: bytes):
+def compute_signature(pkey: crypto.PKey, text: bytes) -> str:
     signature = crypto.sign(pkey, text, SIGN_DIGEST)
     return b64encode(signature).decode('ascii')
