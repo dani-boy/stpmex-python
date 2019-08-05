@@ -7,10 +7,8 @@ from .auth import compute_signature, join_fields
 from .exc import InvalidPassphrase
 from .orden import Orden
 
-DEFAULT_WSDL = (
-    'https://demo.stpmex.com:7024/speidemo/webservices/SpeiActualizaServices?'
-    'wsdl'
-)
+DEMO_BASE_URL = 'demo.stpmex.com:7024/speidemo'
+PROD_BASE_URL = 'prod.stpmex.com/spei'
 
 
 class Client:
@@ -19,7 +17,7 @@ class Client:
         empresa: str,
         priv_key: str,
         priv_key_passphrase: str,
-        wsdl_path: str = DEFAULT_WSDL,
+        demo: bool = False,
     ):
         self.empresa = empresa
         try:
@@ -30,7 +28,12 @@ class Client:
             )
         except crypto.Error:
             raise InvalidPassphrase
-        self.soap_client = SoapClient(wsdl_path)
+        if demo:
+            base_url = DEMO_BASE_URL
+        else:
+            base_url = PROD_BASE_URL
+        wsdl = f'https://{base_url}/webservices/SpeiActualizaServices?wsdl'
+        self.soap_client = SoapClient(wsdl)
 
     def soap_orden(self, orden: Orden):
         SoapOrden = self.soap_client.get_type('ns0:ordenPagoWS')
