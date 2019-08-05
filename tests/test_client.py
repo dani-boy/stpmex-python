@@ -1,4 +1,5 @@
 import pytest
+from requests import HTTPError
 
 from stpmex.client import Client
 from stpmex.exc import InvalidPassphrase
@@ -44,6 +45,17 @@ def test_client():
         demo=True,
     )
     assert client.soap_client.get_type('ns0:ordenPagoWS')
+
+
+@pytest.mark.vcr
+def test_forbidden_without_vpn():
+    pkey_passphrase = '12345678'
+    empresa = 'TAMIZI'
+    with pytest.raises(HTTPError) as exc_info:
+        Client(
+            empresa=empresa, priv_key=PKEY, priv_key_passphrase=pkey_passphrase
+        )
+    assert exc_info.value.response.status_code == 403
 
 
 def test_incorrect_passphrase():
