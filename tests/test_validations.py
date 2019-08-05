@@ -26,7 +26,7 @@ ORDEN_KWARGS = dict(
 )
 
 
-def create_orden(**kwargs):
+def create_orden(**kwargs) -> Orden:
     return Orden(**{**ORDEN_KWARGS, **kwargs})
 
 
