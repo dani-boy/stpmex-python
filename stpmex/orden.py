@@ -4,10 +4,10 @@ from dataclasses import field
 from typing import Optional
 
 import clabe
-from pydantic import constr, PositiveFloat, validator
+from pydantic import PositiveFloat, constr, validator
 from pydantic.dataclasses import dataclass
 
-from .types import Prioridad, TipoCuenta
+from .types import Prioridad
 
 STP_BANK_CODE = '90646'
 
@@ -64,9 +64,10 @@ class Orden:
                 raise ValueError('cuentaBeneficiario no es una válida CLABE')
         else:
             raise ValueError('cuentaBeneficiario no es válida')
-
+        return v
 
     @validator('institucionContraparte')
     def __validate_institucionContraparte(cls, v):
         if v not in clabe.BANKS.values():
             raise ValueError(f'{v} no se corresponde a un banco')
+        return v
