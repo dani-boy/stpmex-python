@@ -37,13 +37,11 @@ PKEY = (
 def test_client():
     pkey_passphrase = '12345678'
     empresa = 'TAMIZI'
-    prefijo = 1570
     client = Client(
         wsdl_path=DEFAULT_WSDL,
         empresa=empresa,
         priv_key=PKEY,
         priv_key_passphrase=pkey_passphrase,
-        prefijo=prefijo,
     )
     assert client.soap_client.get_type('ns0:ordenPagoWS')
 
@@ -51,12 +49,10 @@ def test_client():
 def test_incorrect_passphrase():
     pkey_passphrase = 'incorrect'
     empresa = 'TAMIZI'
-    prefijo = 1570
     with pytest.raises(InvalidPassphrase):
         Client(
             wsdl_path=DEFAULT_WSDL,
             empresa=empresa,
             priv_key=PKEY,
             priv_key_passphrase=pkey_passphrase,
-            prefijo=prefijo,
         )

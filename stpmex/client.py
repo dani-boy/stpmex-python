@@ -3,7 +3,7 @@ from dataclasses import asdict
 from OpenSSL import crypto
 from zeep import Client as SoapClient
 
-from .auth import join_fields, compute_signature
+from .auth import compute_signature, join_fields
 from .exc import InvalidPassphrase
 from .orden import Orden
 

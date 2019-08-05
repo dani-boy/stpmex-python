@@ -39,9 +39,7 @@ def client():
     pkey_passphrase = '12345678'
     empresa = 'TAMIZI'
     yield Client(
-        empresa=empresa,
-        priv_key=PKEY,
-        priv_key_passphrase=pkey_passphrase,
+        empresa=empresa, priv_key=PKEY, priv_key_passphrase=pkey_passphrase
     )
 
 
