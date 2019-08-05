@@ -35,7 +35,7 @@ class Client:
         wsdl = f'https://{base_url}/webservices/SpeiActualizaServices?wsdl'
         self.soap_client = SoapClient(wsdl)
 
-    def soap_orden(self, orden: Orden):
+    def soap_orden(self, orden: Orden) -> 'zeep.objects.ordenPagoWS':
         SoapOrden = self.soap_client.get_type('ns0:ordenPagoWS')
         soap_orden = SoapOrden(**asdict(orden))
         soap_orden.empresa = self.empresa

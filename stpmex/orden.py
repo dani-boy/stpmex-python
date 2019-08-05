@@ -2,7 +2,7 @@ import random
 import time
 import unicodedata
 from dataclasses import field
-from typing import Optional
+from typing import Optional, Type
 
 import clabe
 from pydantic import PositiveFloat, constr, validator
@@ -13,11 +13,13 @@ from .types import Prioridad, TipoCuenta
 STP_BANK_CODE = '90646'
 
 
-def truncated_str(length):
+def truncated_str(length) -> Type:
     return constr(strip_whitespace=True, min_length=1, curtail_length=length)
 
 
-def digits(min_length: Optional[int] = None, max_length: Optional[int] = None):
+def digits(
+    min_length: Optional[int] = None, max_length: Optional[int] = None
+) -> Type:
     return constr(regex=r'^\d+$', min_length=min_length, max_length=max_length)
 
 
