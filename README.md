@@ -1,4 +1,4 @@
-# STP client python3.7+ client library
+# STP client python3.6+ client library
 
 [![Build Status](https://travis-ci.com/cuenca-mx/stpmex-python.svg?branch=master)](https://travis-ci.com/cuenca-mx/stpmex-python)
 [![Coverage Status](https://coveralls.io/repos/github/cuenca-mx/stpmex-python/badge.svg?branch=master)](https://coveralls.io/github/cuenca-mx/stpmex-python?branch=master)
@@ -9,7 +9,7 @@ Cliente para el servicio SOAP de STP
 
 ## Requerimientos
 
-Python v3.7 o superior.
+Python v3.6 o superior.
 
 ## Instalación
 
