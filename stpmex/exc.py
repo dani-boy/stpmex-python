@@ -8,7 +8,8 @@ class StpmexException(BaseException):
 
     def __repr__(self):
         return (
-            self.__class__.__name__ + '('
+            self.__class__.__name__
+            + '('
             + ', '.join(
                 [
                     f'{attr}={repr(value)}'

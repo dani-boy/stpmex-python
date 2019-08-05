@@ -42,7 +42,8 @@ class Client:
         return soap_orden
 
     def registrar_orden(
-            self, orden: Orden) -> 'zeep.objects.speiServiceResponse':
+        self, orden: Orden
+    ) -> 'zeep.objects.speiServiceResponse':
         soap_orden = self.soap_orden(orden)
         joined_fields = join_fields(soap_orden)
         soap_orden.firma = compute_signature(self._pkey, joined_fields)
