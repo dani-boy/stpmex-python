@@ -1,6 +1,7 @@
 import pytest
 
 from stpmex.client import Client
+from stpmex.orden import Orden
 
 PKEY = (
     'Bag Attributes\n    friendlyName: prueba\n    localKeyID:'
@@ -44,6 +45,35 @@ def client():
         priv_key_passphrase=pkey_passphrase,
         prefijo=prefijo,
     )
+
+
+@pytest.fixture
+def orden():
+    yield Orden(
+        institucionContraparte='40072',
+        claveRastreo='CR1564969083',
+        monto=1.2,
+        tipoPago=1,
+        nombreOrdenante=None,
+        cuentaOrdenante=None,
+        tipoCuentaOrdenante=None,
+        rfcCurpOrdenante=None,
+        tipoCuentaBeneficiario=40,
+        nombreBeneficiario='Ricardo Sanchez',
+        cuentaBeneficiario='072691004495711499',
+        rfcCurpBeneficiario='ND',
+        conceptoPago='Prueba',
+        referenciaNumerica=5273144,
+        topologia='T',
+        medioEntrega=3,
+        prioridad=1,
+        iva=None,
+    )
+
+
+@pytest.fixture
+def soap_orden(client, orden):
+    yield client.soap_orden(orden)
 
 
 # @pytest.fixture

@@ -1,4 +1,3 @@
-from base64 import b64encode
 from dataclasses import asdict
 
 from OpenSSL import crypto
@@ -11,7 +10,6 @@ DEFAULT_WSDL = (
     'https://demo.stpmex.com:7024/speidemo/webservices/SpeiActualizaServices?'
     'wsdl'
 )
-SIGN_DIGEST = 'RSA-SHA256'
 
 
 class Client:
@@ -25,7 +23,7 @@ class Client:
     ):
         self.empresa = empresa
         try:
-            self.__unencrypted_priv_key = crypto.load_privatekey(
+            self._unencrypted_priv_key = crypto.load_privatekey(
                 crypto.FILETYPE_PEM,
                 priv_key,
                 priv_key_passphrase.encode('ascii'),
@@ -35,15 +33,14 @@ class Client:
         self.prefijo = prefijo
         self.soap_client = SoapClient(wsdl_path)
 
-    def generate_signature(self, orden: Orden):
-        signature = crypto.sign(
-            self.__unencrypted_priv_key, orden.joined_fields, SIGN_DIGEST
-        )
-        return b64encode(signature).decode('ascii')
+    def soap_orden(self, orden: Orden):
+        SoapOrden = self.soap_client.get_type('ns0:ordenPagoWS')
+        soap_orden = SoapOrden(**asdict(orden))
+        soap_orden.empresa = self.empresa
+        return soap_orden
 
     def registrar_orden(self, orden: Orden):
         SoapOrden = self.soap_client.get_type('ns0:ordenPagoWS')
         soap_orden = SoapOrden(**asdict(orden))
-        soap_orden.firma = self.generate_signature(orden)
-        import ipdb; ipdb.set_trace()
+        soap_orden.empresa = self.empresa
         return self.soap_client.service['registraOrden'](soap_orden)
