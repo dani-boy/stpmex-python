@@ -15,6 +15,5 @@ def test_compute_signature(client, soap_orden):
         'Ah6CdTEQn9q1O7VClOLdRqjNVluOLtDhm4iq5R7ew9+tjjHMJAv7JtSX7W9v55NtR9/jZ'
         '7RhSUbvEvS06Tfxq5CX+Ct7ySDOOiaOpM='
     )
-    pkey = client._unencrypted_priv_key
-    sig = compute_signature(pkey, join_fields(soap_orden))
+    sig = compute_signature(client._pkey, join_fields(soap_orden))
     assert sig == firma

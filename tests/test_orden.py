@@ -1,31 +1,11 @@
-from clabe import BANKS
+import time
 
-from stpmex.orden import Orden
+import pytest
 
 
-def test_registrar_orden(client):
-    orden = Orden(
-        institucionContraparte='40072',
-        claveRastreo='CR1564969083',
-        monto=1.2,
-        tipoPago=1,
-        nombreOrdenante=None,
-        cuentaOrdenante=None,
-        tipoCuentaOrdenante=None,
-        rfcCurpOrdenante=None,
-        tipoCuentaBeneficiario=40,
-        nombreBeneficiario='Ricardo Sanchez',
-        cuentaBeneficiario='072691004495711499',
-        rfcCurpBeneficiario='ND',
-        conceptoPago='Prueba',
-        referenciaNumerica=5273144,
-        topologia='T',
-        medioEntrega=3,
-        prioridad=1,
-        iva=None,
-    )
-
-    x = client.registrar_orden(orden)
-    import ipdb
-
-    ipdb.set_trace()
+@pytest.mark.vcr
+def test_registrar_orden(client, orden):
+    orden.claveRastreo = f'CR{int(time.time())}'
+    resp = client.registrar_orden(orden)
+    assert resp['descripcionError'] is None
+    assert isinstance(resp['id'], int)
