@@ -1,5 +1,6 @@
 import random
 import time
+import unicodedata
 from dataclasses import field
 from typing import Optional
 
@@ -83,3 +84,8 @@ class Orden:
         ):
             raise ValueError('tipoCuenta no es válido')
         return v
+
+    @validator('nombreBeneficiario', 'nombreOrdenante', 'conceptoPago')
+    def __unicode_to_ascii(cls, v):
+        v = unicodedata.normalize('NFKD', v).encode('ascii', 'ignore')
+        return v.decode('ascii')

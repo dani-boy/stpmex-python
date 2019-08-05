@@ -106,3 +106,13 @@ def test_tipo_cuenta():
     error = errors[0]
     assert error['loc'] == ('tipoCuentaBeneficiario',)
     assert error['type'] == 'value_error'
+
+
+def test_replace_unicode():
+    orden = create_orden(
+        nombreBeneficiario='Ricardo Sánchez',
+        conceptoPago='está bien, güey'
+    )
+    assert orden.nombreBeneficiario == 'Ricardo Sanchez'
+    assert orden.conceptoPago == 'esta bien, guey'
+
