@@ -27,6 +27,7 @@ setuptools.setup(
     install_requires=install_requires,
     setup_requires=['pytest-runner'],
     tests_require=test_requires,
+    extras_require=dict(test=test_requires),
     classifiers=[
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.7',
