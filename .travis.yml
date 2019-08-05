@@ -27,6 +27,7 @@ jobs:
         - make install-test
         - pip install coveralls
       script:
+        - export PYTHONPATH=`pwd`
         - pytest --vcr-record=none
         - coveralls
     - stage: PyPI Upload
