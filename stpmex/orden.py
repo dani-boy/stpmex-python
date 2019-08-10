@@ -73,7 +73,11 @@ class Orden:
         return v
 
     @staticmethod
-    def _validate_tipoCuenta(cuenta, tipo):
+    def _validate_tipoCuenta(fieldname, tipo, values):
+        try:
+            cuenta = values[fieldname]
+        except KeyError:  # there's a validation error elsewhere
+            return tipo
         if not any(
             [
                 len(cuenta) == 10 and tipo == TipoCuenta.phone_number.value,
@@ -82,24 +86,15 @@ class Orden:
             ]
         ):
             raise ValueError('tipoCuenta no es válido')
+        return tipo
 
     @validator('tipoCuentaBeneficiario')
     def _validate_tipoCuentaBeneficiario(cls, v, values):
-        try:
-            cuenta = values['cuentaBeneficiario']
-        except KeyError:  # there's a validation error elsewhere
-            return v
-        cls._validate_tipoCuenta(cuenta, v)
-        return v
+        return cls._validate_tipoCuenta('cuentaBeneficiario', v, values)
 
     @validator('tipoCuentaOrdenante')
     def _validate_tipoCuentaOrdenante(cls, v, values):
-        try:
-            cuenta = values['cuentaOrdenante']
-        except KeyError:  # there's a validation error elsewhere
-            return v
-        cls._validate_tipoCuenta(cuenta, v)
-        return v
+        return cls._validate_tipoCuenta('cuentaOrdenante', v, values)
 
     @validator('nombreBeneficiario', 'nombreOrdenante', 'conceptoPago')
     def _unicode_to_ascii(cls, v):
