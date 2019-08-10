@@ -1,28 +1,8 @@
-import codecs
-import os
-import re
+from importlib.machinery import SourceFileLoader
 
 from setuptools import setup
 
-here = os.path.abspath(os.path.dirname(__file__))
-
-
-# from: https://packaging.python.org/guides/single-sourcing-package-version/
-def read(*parts):
-    with codecs.open(os.path.join(here, *parts), 'r') as fp:
-        return fp.read()
-
-
-# from: https://packaging.python.org/guides/single-sourcing-package-version/
-def find_version(*file_paths):
-    version_file = read(*file_paths)
-    version_match = re.search(
-        r"^__version__ = ['\"]([^'\"]*)['\"]", version_file, re.M
-    )
-    if version_match:
-        return version_match.group(1)
-    raise RuntimeError("Unable to find version string.")
-
+version = SourceFileLoader('version', 'stpmex/version.py').load_module()
 
 install_requires = [
     'zeep>=3.1.0,<3.2.0',
@@ -46,7 +26,7 @@ with open('README.md', 'r') as f:
 
 setup(
     name='stpmex',
-    version=find_version('stpmex', '__init__.py'),
+    version=version.__version__,
     author='Cuenca',
     author_email='dev@cuenca.com',
     description='Client library for stpmex.com',
