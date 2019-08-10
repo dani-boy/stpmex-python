@@ -5,7 +5,7 @@ from dataclasses import field
 from typing import Optional, Type
 
 import clabe
-from pydantic import PositiveFloat, constr, validator
+from pydantic import PositiveFloat, conint, constr, validator
 from pydantic.dataclasses import dataclass
 
 from .types import Prioridad, TipoCuenta
@@ -41,7 +41,7 @@ class Orden:
     claveRastreo: truncated_str(29) = field(
         default_factory=lambda: f'CR{int(time.time())}'
     )
-    referenciaNumerica: digits(1, 7) = field(
+    referenciaNumerica: conint(gt=0, lt=10 ** 7) = field(
         default_factory=lambda: random.randint(10 ** 6, 10 ** 7)
     )
     rfcCurpBeneficiario: constr(max_length=18) = 'ND'
