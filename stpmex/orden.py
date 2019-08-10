@@ -84,7 +84,7 @@ class Orden:
             raise ValueError('tipoCuenta no es válido')
 
     @validator('tipoCuentaBeneficiario')
-    def _validate_tipoCuentaBeneficiario(cls, v, values, **kwargs):
+    def _validate_tipoCuentaBeneficiario(cls, v, values):
         try:
             cuenta = values['cuentaBeneficiario']
         except KeyError:  # there's a validation error elsewhere
@@ -93,7 +93,7 @@ class Orden:
         return v
 
     @validator('tipoCuentaOrdenante')
-    def _validate_tipoCuentaOrdenante(cls, v, values, **kwargs):
+    def _validate_tipoCuentaOrdenante(cls, v, values):
         try:
             cuenta = values['cuentaOrdenante']
         except KeyError:  # there's a validation error elsewhere
