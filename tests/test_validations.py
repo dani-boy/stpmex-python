@@ -111,6 +111,6 @@ def test_defaults():
     orden_kwargs = ORDEN_KWARGS.copy()
     orden_kwargs.pop('claveRastreo')
     orden_kwargs.pop('referenciaNumerica')
-    orden = create_orden()
+    orden = Orden(**orden_kwargs)
     assert orden.claveRastreo
     assert orden.referenciaNumerica
