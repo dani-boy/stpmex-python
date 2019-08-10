@@ -72,20 +72,33 @@ class Orden:
             raise ValueError(f'{v} no se corresponde a un banco')
         return v
 
+    @staticmethod
+    def _validate_tipoCuenta(cuenta, tipo):
+        if not any(
+            [
+                len(cuenta) == 10 and tipo == TipoCuenta.phone_number.value,
+                len(cuenta) in {15, 16} and tipo == TipoCuenta.card.value,
+                len(cuenta) == 18 and tipo == TipoCuenta.clabe.value,
+            ]
+        ):
+            raise ValueError('tipoCuenta no es válido')
+
     @validator('tipoCuentaBeneficiario')
-    def _validate_tipoCuenta(cls, v, values, **kwargs):
+    def _validate_tipoCuentaBeneficiario(cls, v, values, **kwargs):
         try:
             cuenta = values['cuentaBeneficiario']
         except KeyError:  # there's a validation error elsewhere
             return v
-        if not any(
-            [
-                len(cuenta) == 10 and v == TipoCuenta.phone_number.value,
-                len(cuenta) in {15, 16} and v == TipoCuenta.card.value,
-                len(cuenta) == 18 and v == TipoCuenta.clabe.value,
-            ]
-        ):
-            raise ValueError('tipoCuenta no es válido')
+        cls._validate_tipoCuenta(cuenta, v)
+        return v
+
+    @validator('tipoCuentaOrdenante')
+    def _validate_tipoCuentaOrdenante(cls, v, values, **kwargs):
+        try:
+            cuenta = values['cuentaOrdenante']
+        except KeyError:  # there's a validation error elsewhere
+            return v
+        cls._validate_tipoCuenta(cuenta, v)
         return v
 
     @validator('nombreBeneficiario', 'nombreOrdenante', 'conceptoPago')

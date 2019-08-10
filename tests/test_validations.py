@@ -91,12 +91,17 @@ def test_invalid_bank():
 
 def test_tipo_cuenta():
     with pytest.raises(ValidationError) as exc_info:
-        create_orden(tipoCuentaBeneficiario=3)
+        create_orden(
+            tipoCuentaBeneficiario=3,
+            tipoCuentaOrdenante=5,
+            cuentaOrdenante='646180157084947785',
+        )
     errors = exc_info.value.errors()
-    assert len(errors) == 1
-    error = errors[0]
-    assert error['loc'] == ('tipoCuentaBeneficiario',)
-    assert error['type'] == 'value_error'
+    assert len(errors) >= 2
+    assert errors[0]['loc'] == ('tipoCuentaBeneficiario',)
+    assert errors[0]['type'] == 'value_error'
+    assert errors[1]['loc'] == ('tipoCuentaOrdenante',)
+    assert errors[1]['type'] == 'value_error'
 
 
 def test_replace_unicode():
