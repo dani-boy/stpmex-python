@@ -5,7 +5,7 @@ from dataclasses import field
 from typing import Optional, Type
 
 import clabe
-from pydantic import PositiveFloat, constr, validator
+from pydantic import PositiveFloat, conint, constr, validator
 from pydantic.dataclasses import dataclass
 
 from .types import Prioridad, TipoCuenta
@@ -41,7 +41,7 @@ class Orden:
     claveRastreo: truncated_str(29) = field(
         default_factory=lambda: f'CR{int(time.time())}'
     )
-    referenciaNumerica: digits(1, 7) = field(
+    referenciaNumerica: conint(gt=0, lt=10 ** 7) = field(
         default_factory=lambda: random.randint(10 ** 6, 10 ** 7)
     )
     rfcCurpBeneficiario: constr(max_length=18) = 'ND'
@@ -58,7 +58,7 @@ class Orden:
             raise ValueError('monto must be a float')
 
     @validator('cuentaBeneficiario', 'cuentaOrdenante')
-    def __validate_cuenta(cls, v):
+    def _validate_cuenta(cls, v):
         if len(v) == 18:
             if not clabe.validate_clabe(v):
                 raise ValueError('cuenta no es una válida CLABE')
@@ -67,28 +67,41 @@ class Orden:
         return v
 
     @validator('institucionContraparte', 'institucionOperante')
-    def __validate_institucion(cls, v):
+    def _validate_institucion(cls, v):
         if v not in clabe.BANKS.values():
             raise ValueError(f'{v} no se corresponde a un banco')
         return v
 
+    @staticmethod
+    def _validate_tipoCuenta(cuenta, tipo):
+        if not any(
+            [
+                len(cuenta) == 10 and tipo == TipoCuenta.phone_number.value,
+                len(cuenta) in {15, 16} and tipo == TipoCuenta.card.value,
+                len(cuenta) == 18 and tipo == TipoCuenta.clabe.value,
+            ]
+        ):
+            raise ValueError('tipoCuenta no es válido')
+
     @validator('tipoCuentaBeneficiario')
-    def __validate_tipoCuenta(cls, v, values, **kwargs):
+    def _validate_tipoCuentaBeneficiario(cls, v, values):
         try:
             cuenta = values['cuentaBeneficiario']
         except KeyError:  # there's a validation error elsewhere
             return v
-        if not any(
-            [
-                len(cuenta) == 10 and v == TipoCuenta.phone_number.value,
-                len(cuenta) in {15, 16} and v == TipoCuenta.card.value,
-                len(cuenta) == 18 and v == TipoCuenta.clabe.value,
-            ]
-        ):
-            raise ValueError('tipoCuenta no es válido')
+        cls._validate_tipoCuenta(cuenta, v)
+        return v
+
+    @validator('tipoCuentaOrdenante')
+    def _validate_tipoCuentaOrdenante(cls, v, values):
+        try:
+            cuenta = values['cuentaOrdenante']
+        except KeyError:  # there's a validation error elsewhere
+            return v
+        cls._validate_tipoCuenta(cuenta, v)
         return v
 
     @validator('nombreBeneficiario', 'nombreOrdenante', 'conceptoPago')
-    def __unicode_to_ascii(cls, v):
+    def _unicode_to_ascii(cls, v):
         v = unicodedata.normalize('NFKD', v).encode('ascii', 'ignore')
         return v.decode('ascii')

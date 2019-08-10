@@ -71,11 +71,11 @@ def test_wrong_length_cuentaBeneficiario():
 
 def test_digits():
     with pytest.raises(ValidationError) as exc_info:
-        create_orden(referenciaNumerica='9üey')
+        create_orden(institucionContraparte='9üey0')
     errors = exc_info.value.errors()
     assert len(errors) == 1
     error = errors[0]
-    assert error['loc'] == ('referenciaNumerica',)
+    assert error['loc'] == ('institucionContraparte',)
     assert error['type'] == 'value_error.str.regex'
 
 
@@ -91,12 +91,17 @@ def test_invalid_bank():
 
 def test_tipo_cuenta():
     with pytest.raises(ValidationError) as exc_info:
-        create_orden(tipoCuentaBeneficiario=3)
+        create_orden(
+            tipoCuentaBeneficiario=3,
+            tipoCuentaOrdenante=5,
+            cuentaOrdenante='646180157084947785',
+        )
     errors = exc_info.value.errors()
-    assert len(errors) == 1
-    error = errors[0]
-    assert error['loc'] == ('tipoCuentaBeneficiario',)
-    assert error['type'] == 'value_error'
+    assert len(errors) >= 2
+    assert errors[0]['loc'] == ('tipoCuentaBeneficiario',)
+    assert errors[0]['type'] == 'value_error'
+    assert errors[1]['loc'] == ('tipoCuentaOrdenante',)
+    assert errors[1]['type'] == 'value_error'
 
 
 def test_replace_unicode():
@@ -111,6 +116,26 @@ def test_defaults():
     orden_kwargs = ORDEN_KWARGS.copy()
     orden_kwargs.pop('claveRastreo')
     orden_kwargs.pop('referenciaNumerica')
-    orden = create_orden()
+    orden = Orden(**orden_kwargs)
     assert orden.claveRastreo
     assert orden.referenciaNumerica
+
+
+def test_zero_referencia_numerica(client):
+    with pytest.raises(ValidationError) as exc_info:
+        create_orden(referenciaNumerica='00')
+    errors = exc_info.value.errors()
+    assert len(errors) == 1
+    error = errors[0]
+    assert error['loc'] == ('referenciaNumerica',)
+    assert error['type'] == 'value_error.number.not_gt'
+
+
+def test_referencia_numerica_too_high(client):
+    with pytest.raises(ValidationError) as exc_info:
+        create_orden(referenciaNumerica=10 ** 7)
+    errors = exc_info.value.errors()
+    assert len(errors) == 1
+    error = errors[0]
+    assert error['loc'] == ('referenciaNumerica',)
+    assert error['type'] == 'value_error.number.not_lt'
