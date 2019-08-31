@@ -1,5 +1,5 @@
 import pytest
-from requests import HTTPError
+from zeep.exceptions import TransportError
 
 from stpmex.client import Client
 from stpmex.exc import InvalidPassphrase, StpmexException
@@ -27,7 +27,6 @@ uzF/x9tl2+BdiDjPOhSRuoa1ypilODdpOGKNKuf0vu2jAbbzDILBYOfw
 -----END ENCRYPTED PRIVATE KEY-----"""
 
 
-@pytest.mark.vcr
 def test_client():
     pkey_passphrase = '12345678'
     empresa = 'TAMIZI'
@@ -41,14 +40,15 @@ def test_client():
 
 
 @pytest.mark.vcr
-def test_forbidden_without_vpn():
+def test_forbidden_without_vpn(orden):
     pkey_passphrase = '12345678'
     empresa = 'TAMIZI'
-    with pytest.raises(HTTPError) as exc_info:
-        Client(
-            empresa=empresa, priv_key=PKEY, priv_key_passphrase=pkey_passphrase
-        )
-    assert exc_info.value.response.status_code == 403
+    client = Client(
+        empresa=empresa, priv_key=PKEY, priv_key_passphrase=pkey_passphrase
+    )
+    with pytest.raises(TransportError) as exc_info:
+        client.registrar_orden(orden)
+    assert exc_info.value.status_code == 403
 
 
 def test_incorrect_passphrase():
