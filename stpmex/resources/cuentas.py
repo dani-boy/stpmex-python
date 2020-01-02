@@ -39,7 +39,7 @@ class Cuenta(Resource):
     colonia: Optional[truncated_str(50)] = None
     alcaldiaMunicipio: Optional[truncated_str(50)] = None
     cp: Optional[digits(5, 5)] = None
-    pais: Optional[conint(ge=1, lt=242)] = None
+    pais: Optional[conint(ge=1, le=242)] = None
     email: Optional[constr(max_length=150)] = None
     idIdentificacion: Optional[digits(max_length=20)] = None
     telefono: Optional[digits(max_length=10)] = None
