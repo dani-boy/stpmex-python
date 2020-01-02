@@ -1,5 +1,4 @@
-__all__ = ['Client', 'Orden', '__version__']
+__all__ = ['__version__', 'Client']
 
 from .client import Client
-from .orden import Orden
 from .version import __version__
