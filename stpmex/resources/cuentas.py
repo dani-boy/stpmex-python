@@ -6,7 +6,7 @@ from pydantic import conint, constr, validator
 from pydantic.dataclasses import dataclass
 
 from ..auth import CUENTA_FIELDNAMES
-from ..types import Clabe, Genero, digits, truncated_str
+from ..types import Clabe, Genero, MXPhoneNumber, digits, truncated_str
 from .base import Resource
 
 MAX_LOTE = 100
@@ -42,7 +42,7 @@ class Cuenta(Resource):
     pais: Optional[conint(ge=1, le=242)] = None
     email: Optional[constr(max_length=150)] = None
     idIdentificacion: Optional[digits(max_length=20)] = None
-    telefono: Optional[digits(max_length=10)] = None
+    telefono: Optional[MXPhoneNumber] = None
 
     id: Optional[int] = None
 
