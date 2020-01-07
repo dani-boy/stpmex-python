@@ -106,7 +106,7 @@ class CuentaFisica(Cuenta):
         """
         cuenta = cls(**kwargs)  # Validar campos
         if cuenta.rfcCurp == old_rfc_curp:
-            raise ValueError('No puedes usar el mismo rfcCurp del antes')
+            raise ValueError('No puedes usar el mismo rfcCurp que anterior')
         old = Cuenta(cuenta=cuenta.cuenta, rfcCurp=old_rfc_curp)
         old.baja(cls._endpoint)
         cuenta._alta()
