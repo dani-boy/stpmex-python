@@ -1,6 +1,3 @@
-from pydantic.errors import PydanticValueError
-
-
 class StpmexException(Exception):
     def __init__(self, **kwargs):
         for attr, value in kwargs.items():
@@ -50,12 +47,3 @@ class PldRejected(StpmexException):
 class NoServiceResponse(StpmexException):
     """No se recibió respuesta del servicio"""
 
-
-class BankCodeValidationError(PydanticValueError):
-    code = 'clabe.bank_code'
-    msg_template = 'código de banco no es válido'
-
-
-class ClabeControlDigitValidationError(PydanticValueError):
-    code = 'clabe.control_digit'
-    msg_template = 'clabe dígito de control no es válido'
