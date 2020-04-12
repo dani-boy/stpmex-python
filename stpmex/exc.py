@@ -27,6 +27,30 @@ class InvalidPassphrase(StpmexException):
     """El passphrase es incorrecto"""
 
 
+class InvalidAccountType(StpmexException):
+    """Tipo de cuenta inválida"""
+
+
+class SignatureValidationError(StpmexException):
+    """Error validando la firma"""
+
+
+class InvalidRfcOrCurp(StpmexException):
+    """RFC o CURP inválido"""
+
+
+class ClaveRastreoAlreadyInUse(StpmexException):
+    """La clave de rastreo es repetida"""
+
+
+class PldRejected(StpmexException):
+    """'Orden sin cuenta ordenante. Se rechaza por PLD"""
+
+
+class NoServiceResponse(StpmexException):
+    """No se recibió respuesta del servicio"""
+
+
 class BankCodeValidationError(PydanticValueError):
     code = 'clabe.bank_code'
     msg_template = 'código de banco no es válido'
