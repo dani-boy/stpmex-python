@@ -19,7 +19,7 @@ test_requires = [
     'pytest-cov',
     'black>=19.10b0,<20.0',
     'isort>=4.3.21,<4.4',
-    'flake8==3.7.9',
+    'flake8<3.8.0',
     'mypy>=0.770',
 ]
 
