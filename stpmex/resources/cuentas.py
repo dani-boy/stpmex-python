@@ -93,17 +93,3 @@ class CuentaFisica(Cuenta):
     email: Optional[constr(max_length=150)] = None
     idIdentificacion: Optional[digits(max_length=20)] = None
     telefono: Optional[MxPhoneNumber] = None
-
-    @classmethod
-    def update(cls, old_rfc_curp: str, **kwargs):
-        """
-        AVISA: Esta función no es atómica ni soporte rollback. Usa con mucha
-        precaución.
-        """
-        cuenta = cls(**kwargs)  # Validar campos
-        if cuenta.rfcCurp == old_rfc_curp:
-            raise ValueError('No puedes usar el mismo rfcCurp que anterior')
-        old = Cuenta(cuenta=cuenta.cuenta, rfcCurp=old_rfc_curp)
-        old.baja(cls._endpoint)
-        cuenta._alta()
-        return cuenta

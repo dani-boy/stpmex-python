@@ -17,10 +17,10 @@ test_requires = [
     'pytest-vcr',
     'pycodestyle',
     'pytest-cov',
-    'black',
-    'isort[pipfile]',
-    'flake8',
-    'mypy',
+    'black>=19.10b0,<20.0',
+    'isort>=4.3.21,<4.4',
+    'flake8<3.8.0',
+    'mypy>=0.770',
 ]
 
 with open('README.md', 'r') as f:
