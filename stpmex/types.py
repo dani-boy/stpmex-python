@@ -104,7 +104,7 @@ class Curp(StrictStr):
 
 
 class Rfc(StrictStr):
-    min_length = 13
+    min_length = 12
     max_length = 13
 
 
