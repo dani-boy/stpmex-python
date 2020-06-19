@@ -62,7 +62,7 @@ orden = client.ordenes.registra(
 saldo = client.saldos.consulta(cuenta='646456789123456789')
 
 # Ordenes - enviadas
-enviadas = client.ordenes.consulta_enviadas() # fecha_operacion es día de hoy
+enviadas = client.ordenes.consulta_enviadas() # fecha_operacion es el día de hoy
 
 # Ordenes - recibidas
 recibidas = client.ordenes.consulta_recibidas(
@@ -75,6 +75,4 @@ orden = client.ordenes.consulta_clave_rastreo(
     institucionOperante=90646,
     fechaOperacion=datetime.date(2020, 4, 20)
 )
-
-cuenta.baja()
 ```
