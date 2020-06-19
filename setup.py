@@ -15,7 +15,6 @@ install_requires = [
 test_requires = [
     'pytest',
     'pytest-vcr',
-    'pycodestyle',
     'pytest-cov',
     'black>=19.10b0,<20.0',
     'isort>=4.3.21,<4.4',
