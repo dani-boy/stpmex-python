@@ -13,7 +13,7 @@ install_requires = [
 ]
 
 test_requires = [
-    'pytest',
+    'pytest>=4.6',
     'pytest-vcr',
     'pytest-cov',
     'black>=19.10b0,<20.0',

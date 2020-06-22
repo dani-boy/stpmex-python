@@ -93,3 +93,9 @@ class CuentaFisica(Cuenta):
     email: Optional[constr(max_length=150)] = None
     idIdentificacion: Optional[digits(max_length=20)] = None
     telefono: Optional[MxPhoneNumber] = None
+
+    def __post_init__(self) -> None:
+        self.nombre = self.nombre.upper()
+        self.apellidoPaterno = self.apellidoPaterno.upper()
+        if self.apellidoMaterno:
+            self.apellidoMaterno = self.apellidoMaterno.upper()
