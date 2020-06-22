@@ -16,6 +16,8 @@ test_requires = [
     'pytest',
     'pytest-vcr',
     'pytest-cov',
+    'coveralls',
+    'coverage<5.0,>=3.6',
     'black>=19.10b0,<20.0',
     'isort>=4.3.21,<4.4',
     'flake8<3.8.0',
