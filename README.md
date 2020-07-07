@@ -3,7 +3,7 @@
 
 [![test](https://github.com/cuenca-mx/stpmex-python/workflows/test/badge.svg)](https://github.com/cuenca-mx/stpmex-python/actions?query=workflow%3Atest)
 [![codecov](https://codecov.io/gh/cuenca-mx/stpmex-python/branch/master/graph/badge.svg)](https://codecov.io/gh/cuenca-mx/stpmex-python)
-[![PyPI](https://img.shields.io/pypi/v/cuenca.svg)](https://pypi.org/project/cuenca/)
+[![PyPI](https://img.shields.io/pypi/v/stpmex.svg)](https://pypi.org/project/stpmex/)
 [![Downloads](https://pepy.tech/badge/stpmex)](https://pepy.tech/project/stpmex)
 
 Cliente para el servicio REST de STP
