@@ -138,7 +138,7 @@ def test_incorrect_passphrase():
             StpmexException,
         ),
         (
-            dict(descripcion='Cuenta Duplicada', id=1),
+            dict(descripcion='Cuenta Duplicada', id=3),
             CUENTA_ENDPOINT,
             DuplicatedAccount,
         ),
@@ -163,9 +163,8 @@ def test_incorrect_passphrase():
 def test_errors(
     client_mock: Client, endpoint: str, expected_exc: type
 ) -> None:
-    with pytest.raises(StpmexException) as exc_info:
+    with pytest.raises(expected_exc) as exc_info:
         client_mock.put(endpoint, dict(firma='{hola}'))
     exc = exc_info.value
-    assert type(exc) is expected_exc
     assert repr(exc)
     assert str(exc)
