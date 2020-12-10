@@ -73,13 +73,13 @@ enviadas = client.ordenes.consulta_enviadas() # fecha_operacion es el día de ho
 
 # Ordenes - recibidas
 recibidas = client.ordenes.consulta_recibidas(
-    fecha_operacion=datetime.date(2020, 4, 20)
+    fecha_operacion=dt.date(2020, 4, 20)
 )
 
 # Orden - consulta por clave rastreo
 orden = client.ordenes.consulta_clave_rastreo(
     claveRastreo='CR1234567890',
     institucionOperante=90646,
-    fechaOperacion=datetime.date(2020, 4, 20)
+    fechaOperacion=dt.date(2020, 4, 20)
 )
 ```
