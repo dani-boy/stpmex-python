@@ -35,7 +35,10 @@ make test
 ## Uso básico
 
 ```python
+import datetime as dt
+
 from stpmex import Client
+from stpmex.types import Pais
 
 client = Client(
     empresa='TU_EMPRESA',
@@ -49,6 +52,8 @@ cuenta = client.cuentas.alta(
     apellidoMaterno='Hernández',
     rfcCurp='SAHE800416HDFABC01',
     cuenta='646180110400000007',
+    paisNacimiento=Pais.MX,
+    fechaNacimiento=dt.date(1980, 4, 14),
 )
 
 orden = client.ordenes.registra(
