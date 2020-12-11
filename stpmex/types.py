@@ -1,10 +1,10 @@
 import re
 import unicodedata
 from enum import Enum
-from typing import TYPE_CHECKING, ClassVar, Optional, Type
+from typing import TYPE_CHECKING, ClassVar, Type
 
-from clabe.types import validate_digits
-from pydantic import ConstrainedStr, StrictStr, constr
+from cuenca_validations.validators import validate_digits
+from pydantic import ConstrainedStr, StrictStr
 from pydantic.validators import (
     constr_length_validator,
     constr_strip_whitespace,
@@ -53,12 +53,6 @@ def truncated_stp_str(length: int) -> Type[str]:
         strip_whitespace=True, min_length=1, curtail_length=length
     )
     return type('TruncatedStpStrValue', (StpStr,), namespace)
-
-
-def digits(
-    min_length: Optional[int] = None, max_length: Optional[int] = None
-) -> Type[str]:
-    return constr(regex=r'^\d+$', min_length=min_length, max_length=max_length)
 
 
 class Estado(str, Enum):
