@@ -3,6 +3,7 @@ import unicodedata
 from enum import Enum
 from typing import TYPE_CHECKING, ClassVar, Type
 
+from clabe import Clabe
 from cuenca_validations.validators import validate_digits
 from pydantic import ConstrainedStr, StrictStr
 from pydantic.validators import (
@@ -11,8 +12,13 @@ from pydantic.validators import (
     str_validator,
 )
 
+from stpmex.exc import BlockedInstitutionError
+
 if TYPE_CHECKING:
-    from pydantic.typing import CallableGenerator  # pragma: no cover
+    from pydantic.typing import CallableGenerator
+
+# STP does not allow to make tranfers to this banks codes.
+BLOCKED_INSTITUTIONS = {'90659', '90642'}
 
 
 def unicode_to_ascii(unicode: str) -> str:
@@ -39,6 +45,19 @@ class StpStr(AsciiStr):
         value = re.sub(r'[-,.]', ' ', value)
         value = value.upper()
         return value
+
+
+class BeneficiarioClabe(Clabe):
+    @classmethod
+    def __get_validators__(cls) -> 'CallableGenerator':
+        yield from Clabe.__get_validators__()
+        yield cls.validate_blocked_institution
+
+    @classmethod
+    def validate_blocked_institution(cls, clabe: Clabe) -> Clabe:
+        if clabe.bank_code_banxico in BLOCKED_INSTITUTIONS:
+            raise BlockedInstitutionError(bank_name=clabe.bank_name)
+        return clabe
 
 
 def truncated_str(length: int) -> Type[str]:

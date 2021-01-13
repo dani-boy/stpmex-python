@@ -17,6 +17,7 @@ from pydantic.dataclasses import dataclass
 from ..auth import ORDEN_FIELDNAMES
 from ..exc import NoOrdenesEncontradas
 from ..types import (
+    BeneficiarioClabe,
     Estado,
     MxPhoneNumber,
     Prioridad,
@@ -43,7 +44,9 @@ class Orden(Resource):
     monto: StrictPositiveFloat
     conceptoPago: truncated_str(39)
 
-    cuentaBeneficiario: Union[Clabe, PaymentCardNumber, MxPhoneNumber]
+    cuentaBeneficiario: Union[
+        BeneficiarioClabe, PaymentCardNumber, MxPhoneNumber
+    ]
     nombreBeneficiario: truncated_str(39)
     institucionContraparte: digits(5, 5)
 
