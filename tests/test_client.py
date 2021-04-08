@@ -174,3 +174,11 @@ def test_errors(
     exc = exc_info.value
     assert repr(exc)
     assert str(exc)
+
+
+@pytest.mark.vcr
+def test_account_registration(client) -> None:
+    client = Client('TAMIZI', PKEY, '12345678')
+    response = client.put(CUENTA_ENDPOINT, dict(firma='{hola}'))
+    assert response['id'] == 0
+    assert response['descripcion'] == 'Cuenta en revisión.'

@@ -49,7 +49,11 @@ class Client:
         priv_key: str,
         priv_key_passphrase: str,
         demo: bool = False,
+        base_url: str = None,
+        soap_url: str = None,
+        timeout: tuple = None,
     ):
+        self.timeout = timeout
         self.session = Session()
         self.session.headers['User-Agent'] = f'stpmex-python/{client_version}'
         if demo:
@@ -58,8 +62,11 @@ class Client:
         else:
             host_url = PROD_HOST
             self.session.verify = True
-        self.base_url = f'{host_url}/speiws/rest'
-        self.soap_url = f'{host_url}/spei/webservices/SpeiConsultaServices'
+        self.base_url = base_url or f'{host_url}/speiws/rest'
+        self.soap_url = (
+            soap_url or f'{host_url}/spei/webservices/SpeiConsultaServices'
+        )
+
         try:
             self.pkey = serialization.load_pem_private_key(
                 priv_key.encode('utf-8'),
@@ -94,6 +101,7 @@ class Client:
             method,
             url,
             json=data,
+            timeout=self.timeout,
             **kwargs,
         )
         self._check_response(response)
