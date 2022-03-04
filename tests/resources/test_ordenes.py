@@ -35,7 +35,7 @@ def test_tipoCuentaBeneficiario(cuenta: str, tipo: TipoCuenta):
 @pytest.mark.parametrize(
     'monto, msg',
     [
-        (-1.3, 'ensure this value is greater than 0'),
+        (-1.3, 'ensure this value is greater than or equal to 0'),
         (1, 'value is not a valid float'),
     ],
 )
