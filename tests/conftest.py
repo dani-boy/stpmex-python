@@ -75,7 +75,7 @@ def orden(client, orden_dict):
 
 
 @pytest.fixture
-def cuenta_dict():
+def persona_fisica_dict():
     yield dict(
         cuenta=generate_new_clabes(1, '6461801570')[0],
         nombre='Eduardo,Marco',
@@ -99,5 +99,16 @@ def cuenta_dict():
 
 
 @pytest.fixture
-def cuenta(client, cuenta_dict):
-    yield CuentaFisica(**cuenta_dict)
+def persona_moral_dict():
+    yield dict(
+        nombre='Tarjetas Cuenca',
+        cuenta='646180157036325892',
+        pais=Pais.MX,
+        fechaConstitucion=dt.date(2021, 1, 1),
+        rfcCurp='TCU200828RX8',
+    )
+
+
+@pytest.fixture
+def cuenta_persona_fisica(client, persona_fisica_dict):
+    yield CuentaFisica(**persona_fisica_dict)

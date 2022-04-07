@@ -1,0 +1,74 @@
+interactions:
+- request:
+    body: '{"cuenta": "646180157036325892", "rfcCurp": "TCU200828RX8", "nombre": "TARJETAS
+      CUENCA", "pais": 187, "fechaConstitucion": "20210101", "firma": "MIi7e/HLlGWIRkJZIfud/Y2xLQhGs01yOlfsiu6yM2epr7XVLP7qXkQ3dTTiCC5bthby25t0QnsVHk56l5SqbNDDJMOZxhp1Ly1hxYt/pQrhuG6Y5mW2h8c4V2UniZFqJ1cqIZAaVc8gUMILTq7QKSiro/w1plJd1aDZmOXkISU=",
+      "empresa": "TAMIZI"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '340'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - stpmex-python/3.8.0.dev3
+    method: PUT
+    uri: https://demo.stpmex.com:7024/speiws/rest/cuentaModule/moral
+  response:
+    body:
+      string: "{\"descripcion\":\"Cuenta en revisi\xF3n.\",\"id\":0}"
+    headers:
+      Content-Length:
+      - '45'
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 31 Mar 2022 23:00:01 GMT
+      X-ORACLE-DMS-ECID:
+      - 1365c4ce-4e83-41f8-a9d1-240281434f55-00006f1f
+      X-ORACLE-DMS-RID:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"cuenta": "646180157036325892", "rfcCurp": "TCU200828RX8", "nombre": "TARJETAS
+      CUENCA", "pais": 187, "fechaConstitucion": "20210101", "firma": "MIi7e/HLlGWIRkJZIfud/Y2xLQhGs01yOlfsiu6yM2epr7XVLP7qXkQ3dTTiCC5bthby25t0QnsVHk56l5SqbNDDJMOZxhp1Ly1hxYt/pQrhuG6Y5mW2h8c4V2UniZFqJ1cqIZAaVc8gUMILTq7QKSiro/w1plJd1aDZmOXkISU=",
+      "empresa": "TAMIZI"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '340'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - stpmex-python/3.8.0.dev3
+    method: PUT
+    uri: https://demo.stpmex.com:7024/speiws/rest/cuentaModule/moral
+  response:
+    body:
+      string: '{"descripcion":"Cuenta Duplicada","id":3}'
+    headers:
+      Content-Length:
+      - '41'
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 31 Mar 2022 23:00:01 GMT
+      X-ORACLE-DMS-ECID:
+      - 1365c4ce-4e83-41f8-a9d1-240281434f55-00006f20
+      X-ORACLE-DMS-RID:
+      - '0'
+    status:
+      code: 200
+      message: OK
+version: 1

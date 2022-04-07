@@ -26,7 +26,7 @@ from .exc import (
     SignatureValidationError,
     StpmexException,
 )
-from .resources import CuentaFisica, Orden, Resource, Saldo
+from .resources import CuentaFisica, CuentaMoral, Orden, Resource, Saldo
 from .version import __version__ as client_version
 
 DEMO_HOST = 'https://demo.stpmex.com:7024'
@@ -40,6 +40,7 @@ class Client:
 
     # resources
     cuentas: ClassVar = CuentaFisica
+    cuentas_morales: ClassVar = CuentaMoral
     ordenes: ClassVar = Orden
     saldos: ClassVar = Saldo
 

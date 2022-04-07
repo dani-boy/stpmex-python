@@ -15,10 +15,10 @@ def test_join_fields_for_orden(orden):
     assert join_fields(orden, ORDEN_FIELDNAMES) == joined
 
 
-def test_join_fields_for_cuenta(cuenta):
-    cuenta.cuenta = '646180157099999993'
+def test_join_fields_for_cuenta(cuenta_persona_fisica):
+    cuenta_persona_fisica.cuenta = '646180157099999993'
     joined = '||TAMIZI|646180157099999993|SAHE800416HDFABC01||'
-    assert join_fields(cuenta, CUENTA_FIELDNAMES) == joined
+    assert join_fields(cuenta_persona_fisica, CUENTA_FIELDNAMES) == joined
 
 
 def test_compute_signature(client, orden):

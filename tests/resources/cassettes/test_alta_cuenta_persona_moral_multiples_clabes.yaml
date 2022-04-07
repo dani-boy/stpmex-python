@@ -1,0 +1,110 @@
+interactions:
+- request:
+    body: '{"cuenta": "646180157019963860", "rfcCurp": "TCU200828RX8", "nombre": "TARJETAS
+      CUENCA", "pais": 187, "fechaConstitucion": "20210101", "firma": "oJlNsqB6z1ebBFGSNqrmfO8zGz9azGuUQtXevEuHmbwylyb6IklKXDGepIl4EPgPnd5Vg+0VhSeq4nb0faUF1QD4nTIXW4YSO5xtL1tyqVAKg0OnUiVEFv710bQzHvZXe3lq7Wc+i3X4/88skm0DUsD8TqqzTyr7tZxZ7HnuwAw=",
+      "empresa": "TAMIZI"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '340'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - stpmex-python/3.8.0.dev3
+    method: PUT
+    uri: https://demo.stpmex.com:7024/speiws/rest/cuentaModule/moral
+  response:
+    body:
+      string: "{\"descripcion\":\"Cuenta en revisi\xF3n.\",\"id\":0}"
+    headers:
+      Content-Length:
+      - '45'
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 31 Mar 2022 23:02:32 GMT
+      X-ORACLE-DMS-ECID:
+      - 1365c4ce-4e83-41f8-a9d1-240281434f55-000073ed
+      X-ORACLE-DMS-RID:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"cuenta": "646180157034931699", "rfcCurp": "TCU200828RX8", "nombre": "TARJETAS
+      CUENCA", "pais": 187, "fechaConstitucion": "20210101", "firma": "nqGtnPwbHXfaJjfUm/geFATMGdZwUMWXmuekcAgQFMa+OIOtvMZDVG2nF3PWN63hgOaLSBdrjDjQxf0U3hGULvJu3PCWO1kTw/PjJXmrG33l9Z6W+8A26U/fYnZ/wrrRA1r37+yRRutqROx0yuk3k5algNkmD9e7yt6cGD4ntdA=",
+      "empresa": "TAMIZI"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '340'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - stpmex-python/3.8.0.dev3
+    method: PUT
+    uri: https://demo.stpmex.com:7024/speiws/rest/cuentaModule/moral
+  response:
+    body:
+      string: "{\"descripcion\":\"Cuenta en revisi\xF3n.\",\"id\":0}"
+    headers:
+      Content-Length:
+      - '45'
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 31 Mar 2022 23:02:33 GMT
+      X-ORACLE-DMS-ECID:
+      - 1365c4ce-4e83-41f8-a9d1-240281434f55-000073f0
+      X-ORACLE-DMS-RID:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"cuenta": "646180157017954923", "rfcCurp": "TCU200828RX8", "nombre": "TARJETAS
+      CUENCA", "pais": 187, "fechaConstitucion": "20210101", "firma": "d96t9tsehq/C8Aslxgx6jwBq6Ddfwi0MPhYuZM6M7M5gLNZK25uIw1toz9HLgpyBVWAJ9QNAomidlMpRUmjp7mUKeX4CHisp1k9s4rCG4mdzVyZS+IXZZhERg41sNB/Qd15d9vq1RHwQhJCuaUGycC+kAXjgRHY98hDOSgKyZrA=",
+      "empresa": "TAMIZI"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '340'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - stpmex-python/3.8.0.dev3
+    method: PUT
+    uri: https://demo.stpmex.com:7024/speiws/rest/cuentaModule/moral
+  response:
+    body:
+      string: "{\"descripcion\":\"Cuenta en revisi\xF3n.\",\"id\":0}"
+    headers:
+      Content-Length:
+      - '45'
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 31 Mar 2022 23:02:33 GMT
+      X-ORACLE-DMS-ECID:
+      - 1365c4ce-4e83-41f8-a9d1-240281434f55-000073f2
+      X-ORACLE-DMS-RID:
+      - '0'
+    status:
+      code: 200
+      message: OK
+version: 1
