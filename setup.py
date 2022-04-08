@@ -8,6 +8,7 @@ install_requires = [
     'cryptography>=3.0,<3.5',
     'cuenca-validations>=0.4,<0.10',
     'requests>=2.25',
+    'workalendar>=16.1.0,<17.0.0',
 ]
 
 
