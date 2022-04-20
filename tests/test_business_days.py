@@ -61,6 +61,33 @@ def test_get_next_business_day_bank_holiday():
     assert bd == dt.date(2021, 4, 5)  # holy week and weekend
 
 
+def test_next_business_day_datetime_after_6_pm():
+    today = dt.datetime(2022, 4, 19, 17, 59)
+    bd = get_next_business_day(today)
+    assert bd == dt.date(2022, 4, 19)
+
+    today = dt.datetime(2022, 4, 19, 18, 0)
+    bd = get_next_business_day(today)
+    assert bd == dt.date(2022, 4, 20)
+
+    today = dt.datetime(2022, 4, 19, 23, 59)
+    bd = get_next_business_day(today)
+    assert bd == dt.date(2022, 4, 20)
+
+    today = dt.datetime(2022, 4, 20, 0)
+    bd = get_next_business_day(today)
+    assert bd == dt.date(2022, 4, 20)
+
+    # friday afternoon
+    today = dt.datetime(2022, 4, 22, 17, 59)
+    bd = get_next_business_day(today)
+    assert bd == dt.date(2022, 4, 22)
+
+    today = dt.datetime(2022, 4, 22, 18, 0)
+    bd = get_next_business_day(today)
+    assert bd == dt.date(2022, 4, 25)
+
+
 def test_get_prior_working_day_weekday():
     # tuesday
     today = dt.datetime(2021, 2, 9)
