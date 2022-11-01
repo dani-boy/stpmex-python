@@ -19,6 +19,7 @@ from .exc import (
     InvalidRfcOrCurp,
     InvalidTrackingKey,
     MandatoryField,
+    NoEntityFound,
     NoOrdenesEncontradas,
     NoServiceResponse,
     PldRejected,
@@ -139,6 +140,8 @@ def _raise_description_error_exc(resp: Dict) -> NoReturn:
         raise SignatureValidationError(**resp['resultado'])
     elif id == 0 and re.match(r'El campo .+ es obligatorio', error):
         raise MandatoryField(**resp['resultado'])
+    elif id == 0 and 'No entity found for query' in error:
+        raise NoEntityFound(**resp['resultado'])
     elif id == -1 and re.match(
         r'La clave de rastreo .+ ya fue utilizada', error
     ):

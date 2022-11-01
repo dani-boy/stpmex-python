@@ -96,3 +96,7 @@ class BlockedInstitutionError(PydanticValueError):
 
     code = 'clabe.bank_code'
     msg_template = '{bank_name} has been blocked by STP.'
+
+
+class NoEntityFound(StpmexException):
+    """No se encuentra una transacción"""
