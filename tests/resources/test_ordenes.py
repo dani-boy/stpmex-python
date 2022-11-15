@@ -1,6 +1,7 @@
 import datetime as dt
 import time
 from typing import Any, Dict
+from unittest.mock import patch
 
 import pytest
 from cuenca_validations.typing import DictStrAny
@@ -104,6 +105,7 @@ def test_consulta_orden_sin_resultado_recibida(client):
         )
 
 
+@patch('stpmex.types.BLOCKED_INSTITUTIONS', {'90659'})
 def test_institucion_bloqueada_no_permite_registrar_orden(
     client: Client, orden_dict: DictStrAny
 ):

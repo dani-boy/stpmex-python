@@ -18,7 +18,7 @@ if TYPE_CHECKING:
     from pydantic.typing import CallableGenerator
 
 # STP does not allow to make tranfers to this banks codes.
-BLOCKED_INSTITUTIONS = {'90659', '90642'}
+BLOCKED_INSTITUTIONS = {'90642'}
 
 
 def unicode_to_ascii(unicode: str) -> str:
