@@ -1,6 +1,7 @@
 import datetime as dt
 import time
 from typing import Any, Dict
+from unittest.mock import patch
 
 import pytest
 from cuenca_validations.typing import DictStrAny
@@ -35,7 +36,7 @@ def test_tipoCuentaBeneficiario(cuenta: str, tipo: TipoCuenta):
 @pytest.mark.parametrize(
     'monto, msg',
     [
-        (-1.3, 'ensure this value is greater than 0'),
+        (-1.3, 'ensure this value is greater than or equal to 0'),
         (1, 'value is not a valid float'),
     ],
 )
@@ -104,6 +105,7 @@ def test_consulta_orden_sin_resultado_recibida(client):
         )
 
 
+@patch('stpmex.types.BLOCKED_INSTITUTIONS', {'90659'})
 def test_institucion_bloqueada_no_permite_registrar_orden(
     client: Client, orden_dict: DictStrAny
 ):

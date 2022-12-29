@@ -46,7 +46,7 @@ client = Client(
     priv_key_passphrase='supersecret',
 )
 
-cuenta = client.cuentas.alta(
+cuenta_persona_fisica = client.cuentas.alta(
     nombre='Eduardo',
     apellidoPaterno='Salvador',
     apellidoMaterno='Hernández',
@@ -54,6 +54,26 @@ cuenta = client.cuentas.alta(
     cuenta='646180110400000007',
     paisNacimiento=Pais.MX,
     fechaNacimiento=dt.date(1980, 4, 14),
+)
+
+
+cuenta_persona_moral = client.cuentas_morales.alta(
+    nombre='LA TIENDITA DE LA ESQUINA SA DE CV',
+    cuenta='646180157036325892',
+    pais=Pais.MX,
+    fechaConstitucion=dt.date(2021, 1, 1),
+    rfcCurp='ABC200101AB0',
+)
+
+# Si deseas dar de alta una nueva clabe para la misma 
+# razón social, haces el mismo request sustituyendo `cuenta`
+# con la nueva clabe
+cuenta_persona_moral = client.cuentas_morales.alta(
+    nombre='LA TIENDITA DE LA ESQUINA SA DE CV',
+    cuenta='646180157036325832',
+    pais=Pais.MX,
+    fechaConstitucion=dt.date(2021, 1, 1),
+    rfcCurp='ABC200101AB0',
 )
 
 orden = client.ordenes.registra(

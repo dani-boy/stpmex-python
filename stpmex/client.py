@@ -19,6 +19,7 @@ from .exc import (
     InvalidRfcOrCurp,
     InvalidTrackingKey,
     MandatoryField,
+    NoEntityFound,
     NoOrdenesEncontradas,
     NoServiceResponse,
     PldRejected,
@@ -26,7 +27,7 @@ from .exc import (
     SignatureValidationError,
     StpmexException,
 )
-from .resources import CuentaFisica, Orden, Resource, Saldo
+from .resources import CuentaFisica, CuentaMoral, Orden, Resource, Saldo
 from .version import __version__ as client_version
 
 DEMO_HOST = 'https://demo.stpmex.com:7024'
@@ -40,6 +41,7 @@ class Client:
 
     # resources
     cuentas: ClassVar = CuentaFisica
+    cuentas_morales: ClassVar = CuentaMoral
     ordenes: ClassVar = Orden
     saldos: ClassVar = Saldo
 
@@ -138,6 +140,8 @@ def _raise_description_error_exc(resp: Dict) -> NoReturn:
         raise SignatureValidationError(**resp['resultado'])
     elif id == 0 and re.match(r'El campo .+ es obligatorio', error):
         raise MandatoryField(**resp['resultado'])
+    elif id == 0 and 'No entity found for query' in error:
+        raise NoEntityFound(**resp['resultado'])
     elif id == -1 and re.match(
         r'La clave de rastreo .+ ya fue utilizada', error
     ):

@@ -8,6 +8,7 @@ from pydantic.dataclasses import dataclass
 
 from ..auth import CUENTA_FIELDNAMES
 from ..types import (
+    ActividadEconomica,
     Curp,
     EntidadFederativa,
     Genero,
@@ -25,6 +26,7 @@ MAX_LOTE = 100
 class Cuenta(Resource):
     _base_endpoint: ClassVar[str] = '/cuentaModule'
     _lote_endpoint: ClassVar[str]
+    _lote_field_name: ClassVar[str]
     _firma_fieldnames: ClassVar[List[str]] = CUENTA_FIELDNAMES
 
     cuenta: Clabe
@@ -46,7 +48,7 @@ class Cuenta(Resource):
                 **cls.alta_lote(lote[:MAX_LOTE]),
                 **cls.alta_lote(lote[MAX_LOTE:]),
             }
-        cuentas = dict(cuentasFisicas=[cuenta.to_dict() for cuenta in lote])
+        cuentas = {cls._lote_field_name: [cuenta.to_dict() for cuenta in lote]}
         return dict(
             zip(
                 [cuenta.cuenta for cuenta in lote],
@@ -74,6 +76,7 @@ class CuentaFisica(Cuenta):
 
     _endpoint: ClassVar[str] = Cuenta._base_endpoint + '/fisica'
     _lote_endpoint: ClassVar[str] = Cuenta._base_endpoint + '/fisicas'
+    _lote_field_name: ClassVar[str] = 'cuentasFisicas'
 
     nombre: truncated_stp_str(50)
     apellidoPaterno: truncated_stp_str(50)
@@ -94,3 +97,16 @@ class CuentaFisica(Cuenta):
     email: Optional[constr(max_length=150)] = None
     idIdentificacion: Optional[digits(max_length=20)] = None
     telefono: Optional[MxPhoneNumber] = None
+
+
+@dataclass
+class CuentaMoral(Cuenta):
+    _endpoint: ClassVar[str] = Cuenta._base_endpoint + '/moral'
+    _lote_endpoint: ClassVar[str] = Cuenta._base_endpoint + '/morales'
+    _lote_field_name: ClassVar[str] = 'cuentasMorales'
+
+    nombre: truncated_stp_str(50)
+    pais: Pais
+    fechaConstitucion: dt.date
+    entidadFederativa: Optional[EntidadFederativa] = None
+    actividadEconomica: Optional[ActividadEconomica] = None

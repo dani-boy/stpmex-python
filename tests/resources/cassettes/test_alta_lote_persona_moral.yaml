@@ -1,0 +1,72 @@
+interactions:
+- request:
+    body: '{"cuentasMorales": [{"cuenta": "646180157011210003", "rfcCurp": "TCU200828RX8",
+      "nombre": "TARJETAS CUENCA", "pais": 187, "fechaConstitucion": "20210101", "firma":
+      "I4amQSLNfI/85Q48DuOXN/RVmnaj+zXAX+X0YWyXRbfB3hwAKp9xLQ1oQqloDRfk0SVhQ2nYCLSy3XDO9IP/uoaCPqsQlVe49hMPhCM3GXXLNUm1ms0YxTMcoFz5eVgS6ey4aE/rBpbkx5j6GeqLJxEvkYJkTTcpZ94qs/TIeg4=",
+      "empresa": "TAMIZI"}, {"cuenta": "646180157019999601", "rfcCurp": "TCU200828RX8",
+      "nombre": "TARJETAS CUENCA", "pais": 187, "fechaConstitucion": "20210101", "firma":
+      "jj5U8rr7TD8vx2F+6axZa6XL5tjFFOL0nH7Rpte6/K9bwgdZwsXLLHL0595YBz6aXEU10NU39WvvlDBIM/xLPB1nM+Dlqi0LZC9L6HgcL9C1YVtEh5IKVQOKwEt6z/BYggKj8ypViqLowRhbA8E0D8/kBTq+/wDydKxwNBHNce4=",
+      "empresa": "TAMIZI"}, {"cuenta": "646180157017208200", "rfcCurp": "TCU200828RX8",
+      "nombre": "TARJETAS CUENCA", "pais": 187, "fechaConstitucion": "20210101", "firma":
+      "WKLOfNHdwFSwu/apN3Nlc7keP8yvq1ShwW8f2rPpcnFxPyXgSSjBJzTv4gd+iu/6yzeay16YBdir6FilzS3tpGfSyWlEJxGcueaNyhqh6qTkaKJvdR6DKrdcTTYDyeYZBPDD3CsbHVnOAQdkqX6kCHQ0B4fQef/L3+2cwe+dVkw=",
+      "empresa": "TAMIZI"}, {"cuenta": "646180157014766538", "rfcCurp": "TCU200828RX8",
+      "nombre": "TARJETAS CUENCA", "pais": 187, "fechaConstitucion": "20210101", "firma":
+      "mvU3UMQzH6Nq8V5tp9RXnqZKszA/Y759qfpti9+Gg6/RjL5cTuesf7SGLwzcJD0MaW2LpHJpMUGVMoaTjASiArEKiqr1YrziPAxkUOedmT7NcYMkwloa22vG6gdsq2vToKgAuhmLerYQC2afUYfX8dfa/t5A3eifDNfv8/iEluQ=",
+      "empresa": "TAMIZI"}, {"cuenta": "646180157014158243", "rfcCurp": "TCU200828RX8",
+      "nombre": "TARJETAS CUENCA", "pais": 187, "fechaConstitucion": "20210101", "firma":
+      "dGBAqwKyEs0MvJexCUmfR3BPbBVgRg+jIN39+hgVBxaVaO76m2xZUbyScHJ9eVG8oMRC+bEI8bWiYEbzC8C1u5oIKScTJVtWNyC2khphqt5s7q3ED4wa5jktR3zge652puUQwctjqeis2h9Dd11xm4Ort5D8jukG8ooKUGruqps=",
+      "empresa": "TAMIZI"}, {"cuenta": "646180157017672522", "rfcCurp": "TCU200828RX8",
+      "nombre": "TARJETAS CUENCA", "pais": 187, "fechaConstitucion": "20210101", "firma":
+      "VeqwwrtAX85YRGiiMu7Xjh9iLFFFAOXGSR+y+XWstqCv3qcBvrubYF/n9vWa1C61XdHvqZ0+enAsNl/qtnDJDhaB7icHWwIQY+yxq1qj17ERsuXGkdC5KSFkprPqvcPVBxNh1ZVilgrxIf81Yn1dwUCeNdc7li53tvroaRQKNaA=",
+      "empresa": "TAMIZI"}, {"cuenta": "646180157015263535", "rfcCurp": "TCU200828RX8",
+      "nombre": "TARJETAS CUENCA", "pais": 187, "fechaConstitucion": "20210101", "firma":
+      "gvGuZxLy5uOTAssz3m364wF9La4HqFe35xYBjijqUuAhfab7+JM8R+TPZi//R3mYOAMmuc0ueZj5Wam9hAfV2LZInFoLnA1YHWEbnrA1bYGjTjzctS8ACOHrD1X5Us+xVe1G6HsCZxCHeuflSODaYCt7nW5XQ7YPSMl+S88a70k=",
+      "empresa": "TAMIZI"}, {"cuenta": "646180157019995935", "rfcCurp": "TCU200828RX8",
+      "nombre": "TARJETAS CUENCA", "pais": 187, "fechaConstitucion": "20210101", "firma":
+      "bXLREaitkDWVkY3hB9UbAUOCQXRwZApo9EQHMg+SM8G7F8shKWQ8FBygsuK3B/3D0bxMGz/7tJaVRsWKylQH7O0CD1Dxu7XHuRL/4mrPO00/Sm0wptZ2RZ9nsQWP7vFzOjuL1hpgQ/vQBhzQI+eFLZYZdy1Nanq35kWfKXZSkw4=",
+      "empresa": "TAMIZI"}, {"cuenta": "646180157012867934", "rfcCurp": "TCU200828RX8",
+      "nombre": "TARJETAS CUENCA", "pais": 187, "fechaConstitucion": "20210101", "firma":
+      "S3PKUIks6f2ohFz9U+tmvePdWo0dNXGrYvDs+XYng6+JvqWSSyWhgF513MCjEa5Aeux1ayqXqL/UrF3BiZ/4L+M0UAMbiWSdmcVPI1+x3CQ4Q+MLpGygyZqcDBJPBJx18S0JwsA7n3br3iSSKx5TOIlRNQmTExCZFeEw9zUtiVI=",
+      "empresa": "TAMIZI"}, {"cuenta": "646180157013934264", "rfcCurp": "TCU200828RX8",
+      "nombre": "TARJETAS CUENCA", "pais": 187, "fechaConstitucion": "20210101", "firma":
+      "slEL6L5j4aNicWjh6tutLtB4ye4U6I2t2PYbsj/DN90oTapEkKfU2+dvGBAstPMQyURH5oUcsMUiq+mHGeCkG9gPNau0/1BPpOvawIHfChFmo7Cj+q1GVQodKU80wr/MAE4YUkivxQ6OFMPTufJLofB6ns4L2sgUBCgjjXawsuI=",
+      "empresa": "TAMIZI"}]}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '3440'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - stpmex-python/3.8.0.dev3
+    method: PUT
+    uri: https://demo.stpmex.com:7024/speiws/rest/cuentaModule/morales
+  response:
+    body:
+      string: "[{\"descripcion\":\"Cuenta en revisi\xF3n.\",\"id\":0},{\"descripcion\"\
+        :\"Cuenta en revisi\xF3n.\",\"id\":0},{\"descripcion\":\"Cuenta en revisi\xF3\
+        n.\",\"id\":0},{\"descripcion\":\"Cuenta en revisi\xF3n.\",\"id\":0},{\"descripcion\"\
+        :\"Cuenta en revisi\xF3n.\",\"id\":0},{\"descripcion\":\"Cuenta en revisi\xF3\
+        n.\",\"id\":0},{\"descripcion\":\"Cuenta en revisi\xF3n.\",\"id\":0},{\"descripcion\"\
+        :\"Cuenta en revisi\xF3n.\",\"id\":0},{\"descripcion\":\"Cuenta en revisi\xF3\
+        n.\",\"id\":0},{\"descripcion\":\"Cuenta en revisi\xF3n.\",\"id\":0}]"
+    headers:
+      Content-Length:
+      - '461'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 01 Apr 2022 00:49:21 GMT
+      X-ORACLE-DMS-ECID:
+      - 5eb9298c-5f1e-4217-ad1a-dad26920cb3d-0000801b
+      X-ORACLE-DMS-RID:
+      - '0'
+    status:
+      code: 200
+      message: OK
+version: 1
