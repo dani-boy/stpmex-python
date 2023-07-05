@@ -100,3 +100,11 @@ class BlockedInstitutionError(PydanticValueError):
 
 class NoEntityFound(StpmexException):
     """No se encuentra una transacción"""
+
+
+class EmptyResultsError(StpmexException):
+    """No se encontraron datos relacionados"""
+
+
+class BadRequestError(StpmexException):
+    """No se encontraron datos relacionados"""

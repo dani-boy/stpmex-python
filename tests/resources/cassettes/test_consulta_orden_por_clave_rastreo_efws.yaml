@@ -1,0 +1,37 @@
+interactions:
+- request:
+    body: '{"empresa": "TAMIZI", "claveRastreo": "CUENCA463814035196", "tipoOrden":
+      "E", "fechaOperacion": "20220418", "firma": "PIjV3hH8nebBlfvB5IZyjDfCuIwCeHKj4Gc0+uhUgwKbCYZjfRW6+Qa22n8CNhoZLZZe15jdSnjcT7g4UHIfmIPdv3iJlix/OVM/FzOIXL0lBrn40NTaJeBrqNZMKS5dMBPqc8NDib1IsoV7NZlUcfMa4JsDdQe3HQ8dRm7yZMc="}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '292'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - stpmex-python/3.10.0.dev12
+    method: POST
+    uri: https://efws-dev.stpmex.com/efws/API/consultaOrden
+  response:
+    body:
+      string: '{"estado":1,"mensaje":"La firma es invalida"}'
+    headers:
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 18 Apr 2022 15:19:08 GMT
+      Server:
+      - nginx/1.14.1
+      Transfer-Encoding:
+      - chunked
+    status:
+      code: 400
+      message: Bad Request
+version: 1

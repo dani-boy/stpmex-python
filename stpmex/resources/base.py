@@ -1,9 +1,10 @@
 import datetime as dt
-from dataclasses import asdict
+from dataclasses import asdict, make_dataclass
 from typing import Any, ClassVar, Dict, List
 
 from ..auth import compute_signature, join_fields
-from ..utils import strftime
+from ..types import Estado
+from ..utils import strftime, strptime
 
 
 class Resource:
@@ -32,6 +33,38 @@ class Resource:
             f"||||||||||||||||||||||||||||||"
         )
         return compute_signature(cls._client.pkey, joined)
+
+    @classmethod
+    def _firma_consulta_efws(cls, consulta):
+        joined = (
+            f"||"
+            f"{cls.empresa}|"
+            f"{consulta.get('claveRastreo', '')}|"
+            f"{consulta.get('tipoOrden', '')}|"
+            f"{consulta.get('fechaOperacion', '')}||"
+        )
+        return compute_signature(cls._client.pkey, joined)
+
+    @staticmethod
+    def _sanitize_consulta(
+        orden: Dict[str, Any]
+    ) -> 'OrdenConsultada':  # noqa: F821
+        sanitized = {}
+        for k, v in orden.items():
+            if v is None:
+                v = None
+            elif k.startswith('ts'):
+                v /= 10 ** 3  # convertir de milisegundos a segundos
+                if v > 10 ** 9:
+                    v = dt.datetime.fromtimestamp(v)
+            elif k == 'fechaOperacion':
+                v = strptime(v)
+            elif k == 'estado':
+                v = Estado(v)
+            elif isinstance(v, str):
+                v = v.rstrip()
+            sanitized[k] = v
+        return make_dataclass('OrdenConsultada', sanitized.keys())(**sanitized)
 
     def to_dict(self) -> Dict[str, Any]:
         base = dict()

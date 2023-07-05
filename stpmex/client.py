@@ -1,5 +1,6 @@
 import re
-from typing import Any, ClassVar, Dict, List, NoReturn, Union
+from json import JSONDecodeError
+from typing import Any, ClassVar, Dict, List, NoReturn, Optional, Union
 
 from cryptography.exceptions import UnsupportedAlgorithm
 from cryptography.hazmat.backends import default_backend
@@ -8,9 +9,11 @@ from requests import Response, Session
 
 from .exc import (
     AccountDoesNotExist,
+    BadRequestError,
     BankCodeClabeMismatch,
     ClaveRastreoAlreadyInUse,
     DuplicatedAccount,
+    EmptyResultsError,
     InvalidAccountType,
     InvalidAmount,
     InvalidField,
@@ -27,7 +30,14 @@ from .exc import (
     SignatureValidationError,
     StpmexException,
 )
-from .resources import CuentaFisica, CuentaMoral, Orden, Resource, Saldo
+from .resources import (
+    CuentaFisica,
+    CuentaMoral,
+    Orden,
+    OrdenV2,
+    Resource,
+    Saldo,
+)
 from .version import __version__ as client_version
 
 DEMO_HOST = 'https://demo.stpmex.com:7024'
@@ -38,11 +48,13 @@ class Client:
     base_url: str
     soap_url: str
     session: Session
+    demo: bool
 
     # resources
     cuentas: ClassVar = CuentaFisica
     cuentas_morales: ClassVar = CuentaMoral
     ordenes: ClassVar = Orden
+    ordenes_v2: ClassVar = OrdenV2
     saldos: ClassVar = Saldo
 
     def __init__(
@@ -60,6 +72,7 @@ class Client:
         self.session = Session()
         self.session.verify = verify
         self.session.headers['User-Agent'] = f'stpmex-python/{client_version}'
+        self.demo = demo
         if demo:
             host_url = DEMO_HOST
         else:
@@ -81,9 +94,9 @@ class Client:
         Resource._client = self
 
     def post(
-        self, endpoint: str, data: Dict[str, Any]
+        self, endpoint: str, data: Dict[str, Any], **kwargs
     ) -> Union[Dict[str, Any], List[Any]]:
-        return self.request('post', endpoint, data)
+        return self.request('post', endpoint, data, **kwargs)
 
     def put(
         self, endpoint: str, data: Dict[str, Any]
@@ -96,9 +109,15 @@ class Client:
         return self.request('delete', endpoint, data)
 
     def request(
-        self, method: str, endpoint: str, data: Dict[str, Any], **kwargs: Any
+        self,
+        method: str,
+        endpoint: str,
+        data: Dict[str, Any],
+        base_url: Optional[str] = None,
+        **kwargs: Any,
     ) -> Union[Dict[str, Any], List[Any]]:
-        url = self.base_url + endpoint
+        base_url = base_url or self.base_url
+        url = base_url + endpoint
         response = self.session.request(
             method,
             url,
@@ -114,9 +133,11 @@ class Client:
 
     @staticmethod
     def _check_response(response: Response) -> None:
-        if not response.ok:
+        try:
+            resp = response.json()
+        except JSONDecodeError:
             response.raise_for_status()
-        resp = response.json()
+
         if isinstance(resp, dict):
             try:
                 _raise_description_error_exc(resp)
@@ -127,6 +148,14 @@ class Client:
                 _raise_description_exc(resp)
             except (AssertionError, KeyError):
                 ...
+
+            try:
+                assert resp['estado'] != 0
+                assert resp['mensaje']
+                _raise_message_error(resp)
+            except (AssertionError, KeyError):
+                ...
+
         response.raise_for_status()
 
 
@@ -181,9 +210,18 @@ def _raise_description_exc(resp: Dict) -> NoReturn:
         raise InvalidRfcOrCurp(**resp)
     elif id == 1 and re.match(r'El campo \w+ es invalido', desc):
         raise InvalidField(**resp)
-    elif id == 3 and desc == 'Cuenta Duplicada':
+    elif id == 3 and desc.lower() == 'cuenta duplicada':
         raise DuplicatedAccount(**resp)
     elif id == 5 and re.match(r'El campo .* obligatorio \w+', desc):
         raise MandatoryField(**resp)
+    else:
+        raise StpmexException(**resp)
+
+
+def _raise_message_error(resp: Dict) -> NoReturn:
+    if resp['estado'] == 2:
+        raise BadRequestError(**resp)
+    if resp['estado'] == 6:
+        raise EmptyResultsError(**resp)
     else:
         raise StpmexException(**resp)
