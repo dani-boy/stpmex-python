@@ -29,6 +29,7 @@ from .base import Resource
 
 STP_BANK_CODE = 90646
 EFWS_DEV_HOST = 'https://efws-dev.stpmex.com'
+EFWS_PROD_HOST = 'https://prod.stpmex.com'
 
 
 @dataclass
@@ -265,7 +266,9 @@ class OrdenV2(Resource):
             consulta['fechaOperacion'] = strftime(fecha_operacion)
 
         consulta['firma'] = cls._firma_consulta_efws(consulta)
-        base_url = EFWS_DEV_HOST if cls._client.demo else None
+        base_url = EFWS_PROD_HOST
+        if cls._client.demo:
+            base_url = EFWS_DEV_HOST
 
         resp = cls._client.post(cls._endpoint, consulta, base_url=base_url)
         return cls._sanitize_consulta(resp['respuesta'])

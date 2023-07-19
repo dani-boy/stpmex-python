@@ -77,7 +77,7 @@ class Client:
             host_url = DEMO_HOST
         else:
             host_url = PROD_HOST
-        self.base_url = base_url or f'{host_url}/speiws/rest'
+        self.base_url = f'{host_url}/speiws/rest'
         self.soap_url = (
             soap_url or f'{host_url}/spei/webservices/SpeiConsultaServices'
         )
