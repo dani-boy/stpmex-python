@@ -17,7 +17,7 @@ def test_consulta_saldo_env_rec(client):
 @pytest.mark.vcr
 def test_consulta_saldo(client):
     saldo = client.saldos.consulta(CLABE)
-    assert type(saldo) is float
+    assert isinstance(saldo, float)
     assert saldo > 0
 
 

@@ -62,16 +62,12 @@ class BeneficiarioClabe(Clabe):
 
 
 def truncated_str(length: int) -> Type[str]:
-    namespace = dict(
-        strip_whitespace=True, min_length=1, curtail_length=length
-    )
+    namespace = dict(strip_whitespace=True, min_length=1, curtail_length=length)
     return type('TruncatedStrValue', (AsciiStr,), namespace)
 
 
 def truncated_stp_str(length: int) -> Type[str]:
-    namespace = dict(
-        strip_whitespace=True, min_length=1, curtail_length=length
-    )
+    namespace = dict(strip_whitespace=True, min_length=1, curtail_length=length)
     return type('TruncatedStpStrValue', (StpStr,), namespace)
 
 

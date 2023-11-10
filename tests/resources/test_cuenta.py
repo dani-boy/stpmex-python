@@ -29,9 +29,7 @@ def test_alta_lote(client, persona_fisica_dict, num_cuentas):
     resp = client.cuentas.alta_lote(lote)
     assert list(resp.keys()) == clabes
     assert all(r['id'] == 0 for r in resp.values())
-    assert all(
-        r['descripcion'] == 'Cuenta en revisión.' for r in resp.values()
-    )
+    assert all(r['descripcion'] == 'Cuenta en revisión.' for r in resp.values())
     for cuenta in lote:
         cuenta.baja()
 
@@ -59,9 +57,7 @@ def test_alta_cuenta_persona_moral(client, persona_moral_dict):
 
 
 @pytest.mark.vcr
-def test_alta_cuenta_persona_moral_multiples_clabes(
-    client, persona_moral_dict
-):
+def test_alta_cuenta_persona_moral_multiples_clabes(client, persona_moral_dict):
     clabes = ['646180157019963860', '646180157034931699', '646180157017954923']
     for clabe in clabes:
         persona_moral_dict['cuenta'] = clabe
@@ -88,6 +84,4 @@ def test_alta_lote_persona_moral(client, persona_moral_dict):
     resp = client.cuentas_morales.alta_lote(lote)
     assert list(resp.keys()) == clabes
     assert all(r['id'] == 0 for r in resp.values())
-    assert all(
-        r['descripcion'] == 'Cuenta en revisión.' for r in resp.values()
-    )
+    assert all(r['descripcion'] == 'Cuenta en revisión.' for r in resp.values())

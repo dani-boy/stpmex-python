@@ -47,13 +47,11 @@ class Resource:
 
     @classmethod
     def _firma_consulta_instituciones_efws(cls):
-        joined = f"||{cls.empresa}||"
+        joined = f'||{cls.empresa}||'
         return compute_signature(cls._client.pkey, joined)
 
     @staticmethod
-    def _sanitize_consulta(
-        orden: Dict[str, Any]
-    ) -> 'OrdenConsultada':  # noqa: F821
+    def _sanitize_consulta(orden: Dict[str, Any]) -> 'OrdenConsultada':  # noqa: F821
         sanitized = {}
         for k, v in orden.items():
             if v is None:

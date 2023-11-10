@@ -37,7 +37,7 @@ class Saldo(Resource):
         """
         client = cls._client
         firma = compute_signature(client.pkey, cuenta)
-        data = f'''
+        data = f"""
 <soapenv:Envelope
         xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
         xmlns:h2h="http://h2h.integration.spei.enlacefi.lgec.com/">
@@ -48,7 +48,7 @@ class Saldo(Resource):
         </h2h:consultaSaldoCuenta>
     </soapenv:Body>
 </soapenv:Envelope>
-'''
+"""
         resp = client.session.post(client.soap_url, data)
         if not resp.ok:
             resp.raise_for_status()

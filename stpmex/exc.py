@@ -11,10 +11,7 @@ class StpmexException(Exception):
             self.__class__.__name__
             + '('
             + ', '.join(
-                [
-                    f'{attr}={repr(value)}'
-                    for attr, value in self.__dict__.items()
-                ]
+                [f'{attr}={repr(value)}' for attr, value in self.__dict__.items()]
             )
             + ')'
         )

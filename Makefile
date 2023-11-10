@@ -2,8 +2,6 @@ SHELL := bash
 PATH := ./venv/bin:${PATH}
 PYTHON = python3.8
 PROJECT = stpmex
-isort = isort  $(PROJECT) tests setup.py
-black = black -S -l 79 $(PROJECT) tests setup.py
 
 
 .PHONY: all
@@ -26,14 +24,11 @@ test: clean install-test lint
 
 .PHONY: format
 format:
-	$(isort)
-	$(black)
+	ruff format $(PROJECT) tests setup.py
 
 .PHONY: lint
 lint:
-	$(isort) --check-only
-	$(black) --check
-	flake8 $(PROJECT) tests setup.py
+	ruff check $(PROJECT) tests setup.py --fix
 	#mypy $(PROJECT) tests
 
 .PHONY: clean

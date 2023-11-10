@@ -80,9 +80,7 @@ class Client:
         else:
             host_url = PROD_HOST
         self.base_url = f'{host_url}/speiws/rest'
-        self.soap_url = (
-            soap_url or f'{host_url}/spei/webservices/SpeiConsultaServices'
-        )
+        self.soap_url = soap_url or f'{host_url}/spei/webservices/SpeiConsultaServices'
 
         try:
             self.pkey = serialization.load_pem_private_key(
@@ -173,9 +171,7 @@ def _raise_description_error_exc(resp: Dict) -> NoReturn:
         raise MandatoryField(**resp['resultado'])
     elif id == 0 and 'No entity found for query' in error:
         raise NoEntityFound(**resp['resultado'])
-    elif id == -1 and re.match(
-        r'La clave de rastreo .+ ya fue utilizada', error
-    ):
+    elif id == -1 and re.match(r'La clave de rastreo .+ ya fue utilizada', error):
         raise ClaveRastreoAlreadyInUse(**resp['resultado'])
     elif id == -7 and re.match(r'La cuenta .+ no existe', error):
         raise AccountDoesNotExist(**resp['resultado'])

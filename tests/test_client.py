@@ -133,9 +133,7 @@ def test_incorrect_passphrase():
             InvalidTrackingKey,
         ),
         (
-            _desc_error(
-                'Orden sin cuenta ordenante. Se rechaza por PLD', -200
-            ),
+            _desc_error('Orden sin cuenta ordenante. Se rechaza por PLD', -200),
             ORDEN_PAGO_ENDPOINT,
             PldRejected,
         ),
@@ -166,8 +164,7 @@ def test_incorrect_passphrase():
         ),
         (
             dict(
-                descripcion='El campo Apellido materno '
-                'obligatorio 6461801500000000',
+                descripcion='El campo Apellido materno ' 'obligatorio 6461801500000000',
                 id=5,
             ),
             CUENTA_ENDPOINT,
@@ -181,9 +178,7 @@ def test_incorrect_passphrase():
     ],
     indirect=['client_mock'],
 )
-def test_errors(
-    client_mock: Client, endpoint: str, expected_exc: type
-) -> None:
+def test_errors(client_mock: Client, endpoint: str, expected_exc: type) -> None:
     with pytest.raises(expected_exc) as exc_info:
         client_mock.put(endpoint, dict(firma='{hola}'))
     exc = exc_info.value
@@ -202,9 +197,7 @@ def test_errors(
     ],
     indirect=['client_mock'],
 )
-def test_client_efws_errors(
-    client_mock: Client, endpoint: str, expected_exc: type
-):
+def test_client_efws_errors(client_mock: Client, endpoint: str, expected_exc: type):
     with pytest.raises(expected_exc) as exc_info:
         client_mock.post(endpoint, dict(firma='foo'))
 

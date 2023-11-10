@@ -45,9 +45,7 @@ class Orden(Resource):
     monto: StrictPositiveFloat
     conceptoPago: truncated_str(39)
 
-    cuentaBeneficiario: Union[
-        BeneficiarioClabe, PaymentCardNumber, MxPhoneNumber
-    ]
+    cuentaBeneficiario: Union[BeneficiarioClabe, PaymentCardNumber, MxPhoneNumber]
     nombreBeneficiario: truncated_str(39)
     institucionContraparte: digits(5, 5)
 
@@ -143,9 +141,7 @@ class Orden(Resource):
 
         else:  # recibida
             consulta_method = cls._consulta_clave_rastreo_recibida
-        return consulta_method(
-            claveRastreo, institucionOperante, fechaOperacion
-        )
+        return consulta_method(claveRastreo, institucionOperante, fechaOperacion)
 
     @classmethod
     def _consulta_fecha(
@@ -166,9 +162,7 @@ class Orden(Resource):
         except NoOrdenesEncontradas:
             ordenes = []
         else:
-            ordenes = [
-                cls._sanitize_consulta(orden) for orden in resp['lst'] if orden
-            ]
+            ordenes = [cls._sanitize_consulta(orden) for orden in resp['lst'] if orden]
         return ordenes
 
     @classmethod

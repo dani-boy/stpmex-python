@@ -134,9 +134,7 @@ def test_consulta_orden_recibida_bad_request_efws(client):
 def test_consulta_orden_recibida_por_clave_rastreo_dia_operacion_efws(
     client,
 ):
-    orden = client.ordenes_v2._consulta_clave_rastreo_recibida(
-        'TESTJSH5018035039'
-    )
+    orden = client.ordenes_v2._consulta_clave_rastreo_recibida('TESTJSH5018035039')
     assert orden.claveRastreo == 'TESTJSH5018035039'
     assert orden.monto == 1.0
 
